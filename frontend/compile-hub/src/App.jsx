@@ -2,9 +2,9 @@ import React, { useContext, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 
 import Home from './pages/Home';
-import Compiler from './pages/Compiler ';
+import Compiler from './pages/Compiler';
 import Signup from './pages/Signup';
-import Login from './pages/Login ';
+import Login from './pages/Login';
 import Error from './pages/Error';
 import "./index.css";
 import { Context } from './context/Context';
