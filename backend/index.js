@@ -1,18 +1,22 @@
 import express from "express";
 import session from "express-session";
 import cors from "cors";
+import bodyParser from "body-parser";
 import "dotenv/config";
 import passport from "passport";
+import AuthUserRoute from "./routes/AuthUser.js";
 import AuthRoute from "./routes/auth.js";
 import "./configs/passport.js";
 import MongoConnect from "./db/Db.js";
+import WorkRoute from "./routes/WorkRoute.js";
 
 const app = express();
+app.use(bodyParser.json());
 
 MongoConnect();
 
 app.use(session({
-    secret: 'your-secret-key',
+    secret: process.env.COOKIE_SESSION_KEY,
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -30,40 +34,14 @@ app.use(cors({
     credentials: true,
 }))
 
-
 app.get("/", (req, res) => {
     res.send("Hello there");
 })
 
-app.use("/auth", AuthRoute)
-
-app.get('/auth/status', (req, res) => {
-    if (req.isAuthenticated()) {
-        res.json({ isAuthenticated: true, user: req.user });
-    } else {
-        res.json({ isAuthenticated: false });
-    }
-});
-
-app.get('/compiler', (req, res) => {
-    if (!req.user) {
-        return res.redirect('/');
-    }
-    res.send(`Welcome ${req.user.name}`);
-});
-
-app.get('/logout', (req, res) => {
-    req.logout((err) => {
-        if (err) { return next(err); }
-
-        req.session.destroy(() => {
-            res.clearCookie('connect.sid');
-            res.redirect(process.env.CLIENT_URL);
-        });
-    });
-});
-
-
+app.use("/api", AuthUserRoute);
+app.use("/auth", AuthRoute);
+app.use('/compiler', WorkRoute);
+app.use('/logout', WorkRoute);
 
 app.listen(process.env.PORT, () => {
     console.log(`Server running on port http://localhost:${process.env.PORT}`);

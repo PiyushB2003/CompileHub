@@ -13,4 +13,12 @@ AuthRoute.get("/google/callback", passport.authenticate("google", {
     failureRedirect: `${process.env.CLIENT_URL}/login`
 }))
 
+AuthRoute.get("/status", (req, res) => {
+    if (req.isAuthenticated()) {
+        res.json({ isAuthenticated: true, user: req.user });
+    } else {
+        res.json({ isAuthenticated: false });
+    }
+})
+
 export default AuthRoute;

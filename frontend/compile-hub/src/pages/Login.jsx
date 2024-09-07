@@ -9,7 +9,7 @@ import {Context} from '../context/Context.js';
 
 const Login = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const {GoogleLogin, GoogleLogout} = useContext(Context);
+  const {GoogleLogin} = useContext(Context);
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-gray-100">
@@ -82,8 +82,6 @@ const Login = () => {
               <button className="bg-white hover:bg-zinc-100 text-black p-3 flex justify-center items-center rounded-lg shadow-md w-full border border-zinc-300 transition duration-300" onClick={GoogleLogin}>
                 <img src="/images/google_logo.png" alt="google_icon" className='size-6 mr-5' /> <span>Log in with Google</span>
               </button>
-
-              <button onClick={GoogleLogout}>Logout</button>
             </div>
           </div>
         </div>
