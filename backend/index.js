@@ -38,10 +38,9 @@ app.get("/", (req, res) => {
     res.send("Hello there");
 })
 
+app.use('/', WorkRoute);
 app.use("/api", AuthUserRoute);
 app.use("/auth", AuthRoute);
-app.use('/compiler', WorkRoute);
-app.use('/logout', WorkRoute);
 
 app.listen(process.env.PORT, () => {
     console.log(`Server running on port http://localhost:${process.env.PORT}`);
