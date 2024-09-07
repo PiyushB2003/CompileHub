@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Home from './pages/Home';
 import Compiler from './pages/Compiler';
@@ -7,22 +7,25 @@ import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Error from './pages/Error';
 import "./index.css";
-import { Context } from './context/Context';
-import ContextProvider from './context/ContextProvider';
+import { ContextProvider } from './context/ContextProvider';
 import RefreshHandler from './components/RefreshHandler';
 
 function App() {
   function PrivateRoute({ element }) {
-    if(localStorage.getItem("UserLogged")){
-      return element
-    }else{
-      return <Navigate to="/login" />
+    const isLogged = localStorage.getItem("UserLogged");
+
+    if (isLogged) {
+      console.log("Navigating to protected route");
+      return element;
+    } else {
+      console.log("Redirecting to login");
+      return <Navigate to="/login" />;
     }
   }
   return (
     <>
-      <ContextProvider>
-        <BrowserRouter>
+      <BrowserRouter>
+        <ContextProvider>
           <RefreshHandler />
           <Routes>
             <Route path='/' element={<Home />} />
@@ -31,8 +34,8 @@ function App() {
             <Route path='/login' element={<Login />} />
             <Route path='*' element={<Error />} />
           </Routes>
-        </BrowserRouter>
-      </ContextProvider>
+        </ContextProvider>
+      </BrowserRouter>
     </>
   )
 }
