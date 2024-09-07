@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  @apply font-sans transition-all duration-100 ease-in-out;
+}
