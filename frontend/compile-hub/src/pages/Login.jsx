@@ -1,15 +1,56 @@
 import React, { useContext, useState } from 'react';
-import { NavLink } from "react-router-dom";
+import axios from "axios";
+import { NavLink, useNavigate } from "react-router-dom";
 import TextField from '@mui/material/TextField';
 import {
   VisibilityOffRoundedIcon,
   VisibilityRoundedIcon
 } from "../utils/Icons.js"
-import {Context} from '../context/Context.js';
+import { Context } from '../context/Context.js';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const [isVisible, setIsVisible] = useState(false);
-  const {GoogleLogin} = useContext(Context);
+  const { GoogleLogin, setIsAuthenticated } = useContext(Context);
+  const navigate = useNavigate();
+
+  const HandleSubmit = (e) => {
+    e.preventDefault();
+    let isConflict = false;
+    if (!email || !password) {
+      isConflict = true;
+      toast.error("All fields are required");
+    } else if (password.length < 8) {
+      isConflict = true;
+      toast.error("Password length must be at least 8 characters");
+    }
+    if (!isConflict) {
+      axios.post(`${import.meta.env.VITE_BACKEND_HOST_URL}/api/login`, { email, password })
+        .then(result => {
+          localStorage.setItem("token", result.data.jwtToken)
+          localStorage.setItem("loggedInUserEmail", result.data.email)
+          localStorage.setItem("loggedInUser", result.data.name)
+          localStorage.setItem("userId", result.data.userId)
+          localStorage.setItem("UserLogged", result.data.success ? "true": "false")
+          toast.success(result.data.message);
+          setIsAuthenticated(result.data.success);
+          console.log(result.data.success);
+          navigate("/compiler");
+        })
+        .catch(error => {
+          if (error.response && error.response.status === 401) {
+            toast.error("Invalid email or password.");
+          } else {
+            toast.error("An error occurred. Please try again.");
+          }
+          console.error("Login error: ", error);
+        })
+    }
+  }
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-gray-100">
@@ -37,9 +78,18 @@ const Login = () => {
               Please log-in to your account and start coding
             </p>
 
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={HandleSubmit}>
               <div>
-                <TextField id="outlined-basic" type='email' name='email' label="Email" variant="outlined" className='w-full' />
+                <TextField
+                  id="outlined-basic"
+                  type='email'
+                  name='email'
+                  label="Email"
+                  variant="outlined"
+                  className='w-full'
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </div>
 
               <div>
@@ -51,6 +101,8 @@ const Login = () => {
                     type={isVisible ? "text" : "password"}
                     className='w-full'
                     autoComplete="current-password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                   <span className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 text-gray-500 cursor-pointer" onClick={() => setIsVisible(curr => !curr)}>
                     {

@@ -25,15 +25,15 @@ const LoginController = async (req, res) => {
     try {
         const { email, password } = req.body;
         const user = await User.findOne({ email });
-        const msg = "Authentication failed, email or password is wrong";
+        const msg = "Invalid email or password";
 
         if (!user) {
-            return res.status(403).json({ message: msg, success: false });
+            return res.status(401).json({ message: msg, success: false });
         }
 
-        const isPassEqual = bcrypt.compare(password, user.password);
+        const isPassEqual = await bcrypt.compare(password, user.password);
         if (!isPassEqual) {
-            return res.status(403).json({ message: msg, success: false });
+            return res.status(401).json({ message: msg, success: false });
         }
 
         const jwtToken = jwt.sign(

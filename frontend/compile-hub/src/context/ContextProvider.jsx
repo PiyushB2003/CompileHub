@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {Context} from "./Context.js"
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ContextProvider = (props) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -27,6 +29,7 @@ const ContextProvider = (props) => {
     const GoogleLogin = () => {
         window.open("http://localhost:4000/auth/google", "_self");
         setIsAuthenticated(true);
+
     }
 
     const GoogleLogout = () => {
