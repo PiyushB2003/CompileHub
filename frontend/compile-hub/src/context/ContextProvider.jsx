@@ -6,16 +6,18 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const ContextProvider = (props) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [logged, setLogged] = useState(null);
     const navigate = useNavigate();
     
     useEffect(() => {
-        fetch('http://localhost:4000/auth/status', {
+        fetch(`${import.meta.env.VITE_BACKEND_HOST_URL}/auth/status`, {
             credentials: 'include', 
         })
         .then(response => response.json())
         .then(data => {
             if(data.isAuthenticated){
                 localStorage.setItem("UserLogged", data.isAuthenticated ? "true": "false")
+                setLogged("true");
                 navigate("/compiler");
             }
             setIsAuthenticated(data.isAuthenticated);
@@ -27,18 +29,22 @@ const ContextProvider = (props) => {
     },[isAuthenticated]);
 
     const GoogleLogin = () => {
-        window.open("http://localhost:4000/auth/google", "_self");
+        window.open(`${import.meta.env.VITE_BACKEND_HOST_URL}/auth/google`, "_self");
+        toast.success("Logged In successful");
         setIsAuthenticated(true);
-
     }
 
     const GoogleLogout = () => {
         localStorage.removeItem("UserLogged");
-        window.open("http://localhost:4000/logout", "_self");
+        window.open(`${import.meta.env.VITE_BACKEND_HOST_URL}/logout`, "_self");
+        toast.success("Logged out successful");
+        setIsAuthenticated(false);
     }
 
     const contextValue = {
         isAuthenticated,
+        logged,
+        setLogged,
         setIsAuthenticated,
         GoogleLogin,
         GoogleLogout,

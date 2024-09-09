@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import BasicMenu from '../../components/BasicMenu'
 import Button from '@mui/material/Button'
 import CustomizedSwitches from '../../components/CustomizedSwitches'
 import { NavLink } from "react-router-dom"
+import { Context } from '../../context/Context'
+import AccountMenu from '../../components/AccountMenu'
 
 const Header = () => {
+  const { isAuthenticated } = useContext(Context);
   return (
     <>
       <div className='fixed top-0 left-0 w-full h-[10%] shadow-md px-24 flex items-center justify-between bg-white z-50'>
@@ -23,11 +26,16 @@ const Header = () => {
           </div>
         </div>
         <div className='flex items-center'>
-          <div className='mx-10'>
-            <NavLink to="/login">
-              <Button variant="outlined"><span className='font-semibold capitalize text-[16px]'>Log In</span></Button>
-            </NavLink>
-          </div>
+          {
+            isAuthenticated ? <div className='mx-10'>
+              <AccountMenu />
+            </div> : <div className='mx-10'>
+              <NavLink to="/login">
+                <Button variant="outlined"><span className='font-semibold capitalize text-[16px]'>Log In</span></Button>
+              </NavLink>
+            </div>
+          }
+
           <div>
             <span>
               <CustomizedSwitches />

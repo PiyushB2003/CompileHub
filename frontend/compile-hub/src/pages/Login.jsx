@@ -15,7 +15,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
 
   const [isVisible, setIsVisible] = useState(false);
-  const { GoogleLogin, setIsAuthenticated } = useContext(Context);
+  const { GoogleLogin, setIsAuthenticated, setLogged } = useContext(Context);
   const navigate = useNavigate();
 
   const HandleSubmit = (e) => {
@@ -38,6 +38,7 @@ const Login = () => {
           localStorage.setItem("UserLogged", result.data.success ? "true": "false")
           toast.success(result.data.message);
           setIsAuthenticated(result.data.success);
+          setLogged("true");
           console.log(result.data.success);
           navigate("/compiler");
         })
