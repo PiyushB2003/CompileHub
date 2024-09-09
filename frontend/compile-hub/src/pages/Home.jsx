@@ -12,7 +12,6 @@ const Home = () => {
                 <Header />
                 <HeroSection />
                 <Footer />
-            <button onClick={GoogleLogout}>Logout</button>
             </div>
         </>
     )

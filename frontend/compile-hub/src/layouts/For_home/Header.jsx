@@ -7,7 +7,8 @@ import { Context } from '../../context/Context'
 import AccountMenu from '../../components/AccountMenu'
 
 const Header = () => {
-  const { isAuthenticated } = useContext(Context);
+  const { isAuthenticated, loggedFromEmail } = useContext(Context);
+  const logged = localStorage.getItem("UserLogged");
   return (
     <>
       <div className='fixed top-0 left-0 w-full h-[10%] shadow-md px-24 flex items-center justify-between bg-white z-50'>
@@ -27,7 +28,7 @@ const Header = () => {
         </div>
         <div className='flex items-center'>
           {
-            isAuthenticated ? <div className='mx-10'>
+            logged ? <div className='mx-10'>
               <AccountMenu />
             </div> : <div className='mx-10'>
               <NavLink to="/login">

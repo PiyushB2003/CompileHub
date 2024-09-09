@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useContext, useState } from 'react';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
@@ -11,15 +11,24 @@ import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
+import { Context } from '../context/Context';
+import BackgroundLetterAvatars from './BackgroundLetterAvatars';
 
 export default function AccountMenu() {
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const { userName, userEmail, avatar, loggedFromEmail, GoogleLogout } = useContext(Context);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
+        console.log(userName, userEmail, avatar);
         setAnchorEl(null);
+    };
+
+    const GetFirstName = () => {
+        let firstname = userName?.split(" ")[0];
+        return firstname;
     };
     return (
         <React.Fragment>
@@ -33,7 +42,13 @@ export default function AccountMenu() {
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
                     >
-                        <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                        {
+                            loggedFromEmail ? <Avatar sx={{ width: 32, height: 32 }}>
+                                <BackgroundLetterAvatars username={userName} />
+                            </Avatar> : <Avatar sx={{ width: 32, height: 32 }}>
+                                <img src={avatar} alt="profile" />
+                            </Avatar>
+                        }
                     </IconButton>
                 </Tooltip>
             </Box>
@@ -75,25 +90,21 @@ export default function AccountMenu() {
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
                 <MenuItem onClick={handleClose}>
-                    <Avatar /> Profile
+                    {
+                        loggedFromEmail ? <div className='flex flex-col items-center'>
+                            <p className='my-3'>{userEmail}</p>
+                                <BackgroundLetterAvatars username={userName} />
+                            <p className='text-center'>Hii, {GetFirstName()}</p>
+                        </div> : <div className='flex flex-col items-center'>
+                            <p className='my-3'>{userEmail}</p>
+                            <img src={avatar} alt="profile" className='size-14 rounded-full' />
+                            <p className='text-center'>Hii, {GetFirstName()}</p>
+                        </div>
+                    }
+
                 </MenuItem>
-                <MenuItem onClick={handleClose}>
-                    <Avatar /> My account
-                </MenuItem>
-                <Divider />
-                <MenuItem onClick={handleClose}>
-                    <ListItemIcon>
-                        <PersonAdd fontSize="small" />
-                    </ListItemIcon>
-                    Add another account
-                </MenuItem>
-                <MenuItem onClick={handleClose}>
-                    <ListItemIcon>
-                        <Settings fontSize="small" />
-                    </ListItemIcon>
-                    Settings
-                </MenuItem>
-                <MenuItem onClick={handleClose}>
+
+                <MenuItem onClick={GoogleLogout}>
                     <ListItemIcon>
                         <Logout fontSize="small" />
                     </ListItemIcon>

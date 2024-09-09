@@ -3,6 +3,7 @@ import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { ArrowForwardRoundedIcon } from '../utils/Icons';
+import { NavLink } from 'react-router-dom';
 
 
 const ColorButton = styled(Button)(({ theme }) => ({
@@ -13,10 +14,12 @@ const ColorButton = styled(Button)(({ theme }) => ({
     },
 }));
 
-export function CustomizedButtons({children}) {
+export function CustomizedButtons({ children }) {
     return (
         <Stack spacing={2} direction="row">
-            <ColorButton variant="contained"><span className="px-5 text-lg capitalize">Start Coding <ArrowForwardRoundedIcon/></span></ColorButton>
+            <NavLink to="/compiler">
+                <ColorButton variant="contained"><span className="px-5 text-lg capitalize">Start Coding <ArrowForwardRoundedIcon /></span></ColorButton>
+            </NavLink>
         </Stack>
     );
 }

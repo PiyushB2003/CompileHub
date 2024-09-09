@@ -35,7 +35,6 @@ const HeroSection = () => {
 
   return (
     <>
-
       <div className='w-full flex px-24 h-[90%] pt-5'>
         <div className='w-1/2 h-full pb-7 flex flex-col justify-center'>
           <div className='text-[#25265e]'>
