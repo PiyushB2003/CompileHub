@@ -5,7 +5,6 @@ import Stack from '@mui/material/Stack';
 import { ArrowForwardRoundedIcon } from '../utils/Icons';
 import { NavLink } from 'react-router-dom';
 
-
 const ColorButton = styled(Button)(({ theme }) => ({
     color: theme.palette.getContrastText("#25265E"),
     backgroundColor: "#25265E",
