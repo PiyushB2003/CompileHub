@@ -1,27 +1,25 @@
 import React, { useEffect, useRef, useState } from 'react';
+import axios from "axios";
 import Button from '@mui/material/Button';
 import { NavLink } from "react-router-dom"
 import { AutoAwesomeIcon, DarkModeIcon, FullscreenRoundedIcon } from '../utils/Icons';
 import Editor from '@monaco-editor/react';
 import { Boilerplates } from '../utils/BoilerplateCode';
-
+import { FidgetSpinner } from "react-loader-spinner"
 
 const customTheme = {
-  base: 'vs', // or 'vs', depending on your preference
+  base: 'vs',
   inherit: true,
   rules: [],
   colors: {
-    'editor.background': '#F5F5F5', // Set the background color here
-    // 'editor.foreground': '#000000',
-    // 'editorCursor.foreground': '#8B0000',
-    // 'editor.lineHighlightBackground': '#0000FF20',
-    // 'editor.selectionBackground': '#88000030',
-    // 'editor.inactiveSelectionBackground': '#88000015',
+    'editor.background': '#F5F5F5',
   }
 };
 
 const Compiler = () => {
+  const [code, setCode] = useState(Boilerplates["cpp"]);
   const [language, setLanguage] = useState("cpp");
+  const [loading, setLoading] = useState(false);
   const languageRef = useRef(null);
 
   const imageUrls = [
@@ -51,6 +49,22 @@ const Compiler = () => {
     languageRef.current = obj.language;
     setLanguage(obj.language);
   };
+  const HandleEditorChange = (value, event) => {
+    setCode(value);
+  }
+
+  const HandleCodeSubmit = () => {
+    setLoading(true);
+    axios.post(`${import.meta.env.VITE_BACKEND_HOST_URL}/run`, { code, language })
+      .then(response => {
+        console.log("success", response.data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.log("Error while runnig code: ", error);
+        setLoading(false);
+      })
+  }
 
   useEffect(() => {
     if (languageRef.current) {
@@ -115,8 +129,19 @@ const Compiler = () => {
               <button className='border border-zinc-300 p-1 mx-2 text-[#757171]'>
                 <DarkModeIcon className=' scale-90' />
               </button>
-              <button className='bg-[#0556F3] hover:bg-[#0047D1] transition duration-300 text-white ml-2 mr-4 font-semibold py-1 px-4 border border-[#0556F3] hover:border-[#0047D1]'>
-                Run
+              <button className='bg-[#0556F3] hover:bg-[#0047D1] transition duration-300 text-white ml-2 mr-4 font-semibold w-20 h-9 flex items-center justify-center border border-[#0556F3] hover:border-[#0047D1]' onClick={HandleCodeSubmit}>
+                {
+                  loading ? <FidgetSpinner
+                    visible={true}
+                    height="30"
+                    width="30"
+                    ariaLabel="fidget-spinner-loading"
+                    wrapperStyle={{}}
+                    wrapperClass="fidget-spinner-wrapper"
+                    backgroundColor='white'
+                  /> : "Run"
+                }
+
               </button>
             </div>
           </div>
@@ -130,6 +155,7 @@ const Compiler = () => {
                 fontFamily: 'Arial, sans-serif',
                 fontSize: 16,
               }}
+              onChange={HandleEditorChange}
             />
           </div>
         </div>
