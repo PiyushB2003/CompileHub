@@ -18,6 +18,7 @@ const customTheme = {
 
 const Compiler = () => {
   const [code, setCode] = useState(Boilerplates["cpp"]);
+  const [output, setOutput] = useState("");
   const [language, setLanguage] = useState("cpp");
   const [loading, setLoading] = useState(false);
   const languageRef = useRef(null);
@@ -58,9 +59,13 @@ const Compiler = () => {
     axios.post(`${import.meta.env.VITE_BACKEND_HOST_URL}/run`, { code, language })
       .then(response => {
         console.log("success", response.data);
+        setOutput(response.data.output || response.data.stderr || "No output");
+        console.log(output.valueOf());
+        
         setLoading(false);
       })
       .catch(error => {
+        setOutput(`Error: ${error.response?.data?.error || error.message}`);
         console.log("Error while runnig code: ", error);
         setLoading(false);
       })

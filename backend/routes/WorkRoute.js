@@ -1,6 +1,6 @@
 import express from "express";
-import { writeFileSync, unlinkSync } from "fs";
-import { exec } from "child_process";
+import { writeFileSync, unlinkSync, existsSync } from "fs";
+import { exec, execSync } from "child_process";
 
 const WorkRoute = express.Router();
 
@@ -22,67 +22,106 @@ WorkRoute.get("/logout", (req, res) => {
     });
 })
 
-WorkRoute.post("/run", (req, res) => {
-    const { language, code } = req.body;
-    let dockerImage;
-    let filename;
-    let runCommand;
+const runCommand = (command, cwd = process.cwd()) => {
+    return new Promise((resolve, reject) => {
+        exec(command, { cwd }, (error, stdout, stderr) => {
+            if (error) {
+                reject({ error: error.message, stderr });
+            } else {
+                resolve(stdout);
+            }
+        });
+    });
+};
 
-    switch (language) {
-        case 'python':
-            dockerImage = 'python:3.9';
-            filename = 'code.py';
-            runCommand = 'python3 code.py';
-            break;
-        case 'cpp':
-            dockerImage = 'gcc:latest';
-            filename = 'code.cpp';
-            runCommand = 'g++ code.cpp -o code && ./code';
-            break;
-        case 'java':
-            dockerImage = 'openjdk:latest';
-            filename = 'code.java';
-            runCommand = 'javac code.java && java code';
-            break;
-        case 'javascript':
-            dockerImage = 'node:18';
-            filename = 'code.js';
-            runCommand = 'node code.js';
-            break;
-        case 'c':
-            dockerImage = 'gcc:latest';
-            filename = 'code.c';
-            runCommand = 'gcc code.c -o code && ./code';
-            break;
-        default:
-            return res.status(400).json({ message: 'Language not supported' });
-    }
+// Function to handle file creation, execution, and cleanup
+const handleCodeExecution = async (req, res, fileName, execCommandUnix, execCommandWin, cleanupFiles = []) => {
+    const { code } = req.body;
+
+    // Write code to file
+    writeFileSync(fileName, code);
 
     try {
-        writeFileSync(filename, code);
+        // Determine the correct command based on the OS
+        const isWin = process.platform === 'win32';
+        const execCommand = isWin ? execCommandWin : execCommandUnix;
 
-        const command = `docker run --rm -v "$PWD":/usr/src/app -w /usr/src/app ${dockerImage} sh -c "${runCommand}"`;
-
-
-        exec(command, (error, stdout, stderr) => {
-            unlinkSync(filename);
-
-            if (error) {
-                return res.status(500).json({
-                    message: "Error during running the code",
-                    error: stderr || error.message
-                });
-            }
-            return res.status(200).json({
-                message: "Code run successfully",
-                output: stdout
-            });
-        });
+        // Compile or execute code
+        const output = execSync(execCommand).toString();
+        res.json({ output });
     } catch (err) {
-        return res.status(500).json({
-            message: "An error occurred while handling the code",
-            error: err.message
+        res.json(err);
+    } finally {
+        // Cleanup files
+        cleanupFiles.forEach(file => {
+            if (existsSync(file)) unlinkSync(file);
         });
+    }
+};
+
+// Endpoint to handle code execution based on language
+WorkRoute.post('/run', async (req, res) => {
+    const { language, code } = req.body;
+
+    switch (language) {
+        case 'c':
+            await handleCodeExecution(
+                req,
+                res,
+                'program.c',
+                'gcc program.c -o program && ./program',  // Unix-based
+                'gcc program.c -o program && program.exe',  // Windows
+                ['program.c', 'program', 'program.exe']
+            );
+            break;
+
+        case 'cpp':
+            await handleCodeExecution(
+                req,
+                res,
+                'program.cpp',
+                'g++ program.cpp -o program && ./program',  // Unix-based
+                'g++ program.cpp -o program && program.exe',  // Windows
+                ['program.cpp', 'program', 'program.exe']
+            );
+            break;
+
+        case 'java':
+            await handleCodeExecution(
+                req,
+                res,
+                'Main.java',
+                'javac Main.java && java Main',  // Unix-based
+                'javac Main.java && java Main',  // Windows (same for both)
+                ['Main.java', 'Main.class']
+            );
+            break;
+
+        case 'javascript':
+            await handleCodeExecution(
+                req,
+                res,
+                'script.js',
+                'node script.js',  // Unix-based
+                'node script.js',  // Windows (same for both)
+                ['script.js']
+            );
+            break;
+
+        case 'python':
+            await handleCodeExecution(
+                req,
+                res,
+                'script.py',
+                'python3 script.py',
+                'python script.py', 
+                ['script.py']
+            );
+            break;
+
+        default:
+            res.status(400).json({ error: 'Unsupported language' });
+            break;
     }
 });
 
