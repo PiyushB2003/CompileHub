@@ -17,13 +17,6 @@ const customTheme = {
   }
 };
 
-const languageCode = {
-  c: 50,
-  cpp: 54,
-  java: 91,
-  javascript: 97, 
-  python: 92
-}
 
 const Compiler = () => {
   const [code, setCode] = useState(Boilerplates["cpp"]);
