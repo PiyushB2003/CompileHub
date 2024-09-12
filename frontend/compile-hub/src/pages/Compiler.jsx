@@ -7,6 +7,7 @@ import Editor from '@monaco-editor/react';
 import { Boilerplates } from '../utils/BoilerplateCode';
 import { FidgetSpinner } from "react-loader-spinner"
 import AccountMenu from '../components/AccountMenu';
+import { MakeSubmission } from '../services/Service';
 
 const customTheme = {
   base: 'vs',
@@ -20,6 +21,7 @@ const customTheme = {
 
 const Compiler = () => {
   const [code, setCode] = useState(Boilerplates["cpp"]);
+  const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [language, setLanguage] = useState("cpp");
   const [loading, setLoading] = useState(false);
@@ -57,21 +59,36 @@ const Compiler = () => {
     setCode(value);
   }
 
-  const HandleCodeSubmit = () => {
-    setLoading(true);
-    axios.post(`${import.meta.env.VITE_BACKEND_HOST_URL}/run`, { code, language })
-      .then(response => {
-        console.log("success", response.data);
-        setOutput(response.data.output || response.data.stderr || "No output");
-        console.log(output.valueOf());
+  const callBack = ({ apiStatus, data, message }) => {
+    // console.log(data.status.id);
+    
+    if (apiStatus === "loading") {
+      setLoading(true);
+    } else if (apiStatus === "error") {
+      setLoading(false);
+      console.error("Error: ", message);
+      setOutput("Something went wrong!")
+    } else {
+      setLoading(false);
+      if (data.status.id === 3) {
+        setOutput(atob(data.stdout))
+      } else {
+        setOutput(atob(data.stderr))
+      }
+    }
+  }
 
-        setLoading(false);
-      })
-      .catch(error => {
-        setOutput(`Error: ${error.response?.data?.error || error.message}`);
-        console.log("Error while runnig code: ", error);
-        setLoading(false);
-      })
+  const HandleCodeSubmit = () => {
+    MakeSubmission({
+      code,
+      language,
+      callBack,
+      stdin: input
+    })
+  }
+
+  const HandleClear = () => {
+    setOutput("");
   }
 
   useEffect(() => {
@@ -178,18 +195,18 @@ const Compiler = () => {
               <p className='font-semibold text-[#757171]'>Input</p>
             </div>
             <div className='h-[82%] w-full'>
-              <textarea name="output" cols="67" className='border-none outline-none h-[90%] ml-4 mt-2 resize-none'></textarea>
+              <textarea name="output" cols="67" className='border-none outline-none h-[90%] ml-4 mt-2 resize-none' value={input} onChange={(e) => setInput(e.target.value)}></textarea>
             </div>
           </div>
           <div className="h-1/2 w-full">
             <div className='border-b border-t border-zinc-300 bg-[#FBFBFB] h-[18%] w-full flex items-center justify-between px-4'>
               <p className='font-semibold text-[#757171]'>Output</p>
-              <button className='border border-zinc-300 py-1 px-4 text-[#757171] font-semibold'>
+              <button className='border border-zinc-300 py-1 px-4 text-[#757171] font-semibold' onClick={HandleClear}>
                 Clear
               </button>
             </div>
             <div className='h-[82%] w-full'>
-              <textarea name="output" cols="67" disabled className='border-none outline-none h-[90%] ml-4 mt-2 resize-none'></textarea>
+              <textarea name="output" cols="67" disabled className='border-none outline-none h-[90%] ml-4 mt-2 resize-none' value={output} onChange={(e) => setOutput(e.target.value)}></textarea>
             </div>
           </div>
         </div>

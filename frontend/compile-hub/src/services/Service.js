@@ -1,9 +1,9 @@
 const languageCode = {
-    c: 50,
-    cpp: 54,
-    java: 91,
-    javascript: 97,
-    python: 92
+    "c": 50,
+    "cpp": 54,
+    "java": 91,
+    "javascript": 97,
+    "python": 92
 }
 
 const getSubmission = async (tokenId, callBack) => {
@@ -11,6 +11,7 @@ const getSubmission = async (tokenId, callBack) => {
     const options = {
         method: 'GET',
         headers: {
+            'content-type': 'application/octet-stream',
             'x-rapidapi-key': 'e423bece32msh1aaddc0aa3a721bp1f6d11jsne26bb0b25c8b',
             'x-rapidapi-host': 'judge0-ce.p.rapidapi.com'
         }
@@ -19,14 +20,15 @@ const getSubmission = async (tokenId, callBack) => {
     try {
         const response = await fetch(url, options);
         const result = await response.json();
-        console.log(result);
+        return result;
     } catch (error) {
+        console.log("In the getsubmission");
         callBack({ apiStatus: 'error', message: JSON.stringify(error) })
         console.error({ error });
     }
 }
 
-export const MakeSUbmission = async ({ code, language, callback, stdin }) => {
+export const MakeSubmission = async ({ code, language, callBack, stdin }) => {
     const url = "https://judge0-ce.p.rapidapi.com/submissions?base64_encoded=true&wait=false&fields=*"
 
     const httpOptions = {
@@ -44,9 +46,11 @@ export const MakeSUbmission = async ({ code, language, callback, stdin }) => {
     };
 
     try {
-        callback({ apiStatus: 'loading' });
+        callBack({ apiStatus: 'loading' });
         const response = await fetch(url, httpOptions);
-        const result = response.json();
+        console.log(response);
+        const result = await response.json();
+        console.log("Result", result);
         const tokenId = result.token;
         let statusCode = 1;
         let apiSubmissionResult;
@@ -55,16 +59,18 @@ export const MakeSUbmission = async ({ code, language, callback, stdin }) => {
                 apiSubmissionResult = await getSubmission(tokenId);
                 statusCode = apiSubmissionResult.status.id;
             } catch (error) {
-                callback({ apiStatus: 'error', message: JSON.stringify(error) })
+                console.log("In the try HandleSubmission");
+                callBack({ apiStatus: 'error', message: JSON.stringify(error) })
                 return;
             }
         }
-
+        
         if(apiSubmissionResult){
-            callback({apiStatus: 'success', data: apiSubmissionResult})
+            callBack({apiStatus: 'success', data: apiSubmissionResult})
         }
     } catch (error) {
-        callback({
+        console.log("In the catch HandleSubmission");
+        callBack({
             apiStatus: 'error',
             message: JSON.stringify(error)
         })
