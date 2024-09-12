@@ -6,6 +6,7 @@ import { AutoAwesomeIcon, DarkModeIcon, FullscreenRoundedIcon } from '../utils/I
 import Editor from '@monaco-editor/react';
 import { Boilerplates } from '../utils/BoilerplateCode';
 import { FidgetSpinner } from "react-loader-spinner"
+import AccountMenu from '../components/AccountMenu';
 
 const customTheme = {
   base: 'vs',
@@ -16,12 +17,21 @@ const customTheme = {
   }
 };
 
+const languageCode = {
+  c: 50,
+  cpp: 54,
+  java: 91,
+  javascript: 97, 
+  python: 92
+}
+
 const Compiler = () => {
   const [code, setCode] = useState(Boilerplates["cpp"]);
   const [output, setOutput] = useState("");
   const [language, setLanguage] = useState("cpp");
   const [loading, setLoading] = useState(false);
   const languageRef = useRef(null);
+  const logged = localStorage.getItem("UserLogged");
 
   const imageUrls = [
     {
@@ -61,7 +71,7 @@ const Compiler = () => {
         console.log("success", response.data);
         setOutput(response.data.output || response.data.stderr || "No output");
         console.log(output.valueOf());
-        
+
         setLoading(false);
       })
       .catch(error => {
@@ -73,7 +83,7 @@ const Compiler = () => {
 
   useEffect(() => {
     if (languageRef.current) {
-      console.log('Selected language:', languageRef.current);  // Access the language stored in ref
+      console.log('Selected language:', languageRef.current);
     }
   }, [language]);
   useEffect(() => {
@@ -95,8 +105,13 @@ const Compiler = () => {
             {language === "cpp" ? "C++" : language.charAt(0).toUpperCase() + language.slice(1)} Compiler
           </span>
         </div>
-        <div>
+        <div className='flex items-center'>
           <Button variant="outlined"><span className='font-semibold flex items-center capitalize text-[16px]'><AutoAwesomeIcon /> <span className='ml-1'>Optimise code with AI</span></span></Button>
+          {
+            logged && <div className='ml-2'>
+              <AccountMenu />
+            </div>
+          }
         </div>
       </div>
       <div className='w-full h-[85%] flex'>
@@ -165,11 +180,24 @@ const Compiler = () => {
           </div>
         </div>
         <div className='h-full w-2/5'>
-          <div className='border-b border-zinc-300 bg-[#FBFBFB] h-[9%] w-full flex items-center justify-between px-4'>
-            <p className='font-semibold text-[#757171]'>Output</p>
-            <button className='border border-zinc-300 py-1 px-4 text-[#757171] font-semibold'>
-              Clear
-            </button>
+          <div className="h-1/2 w-full">
+            <div className='border-b border-zinc-300 bg-[#FBFBFB] h-[18%] w-full flex items-center justify-between px-4'>
+              <p className='font-semibold text-[#757171]'>Input</p>
+            </div>
+            <div className='h-[82%] w-full'>
+              <textarea name="output" cols="67" className='border-none outline-none h-[90%] ml-4 mt-2 resize-none'></textarea>
+            </div>
+          </div>
+          <div className="h-1/2 w-full">
+            <div className='border-b border-t border-zinc-300 bg-[#FBFBFB] h-[18%] w-full flex items-center justify-between px-4'>
+              <p className='font-semibold text-[#757171]'>Output</p>
+              <button className='border border-zinc-300 py-1 px-4 text-[#757171] font-semibold'>
+                Clear
+              </button>
+            </div>
+            <div className='h-[82%] w-full'>
+              <textarea name="output" cols="67" disabled className='border-none outline-none h-[90%] ml-4 mt-2 resize-none'></textarea>
+            </div>
           </div>
         </div>
       </div>

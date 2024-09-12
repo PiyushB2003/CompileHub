@@ -52,7 +52,6 @@ const handleCodeExecution = async (req, res, fileName, execCommandUnix, execComm
     } catch (err) {
         res.json(err);
     } finally {
-        // Cleanup files
         cleanupFiles.forEach(file => {
             if (existsSync(file)) unlinkSync(file);
         });
