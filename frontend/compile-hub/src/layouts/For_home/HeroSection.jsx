@@ -35,30 +35,30 @@ const HeroSection = () => {
 
   return (
     <>
-      <div className='w-full flex px-24 h-[90%] pt-5'>
-        <div className='w-1/2 h-full pb-7 flex flex-col justify-center'>
+      <div className='w-full flex md:px-24 mt-28 md:mt-0 px-5 h-[90%] md:pt-5 md:flex-row flex-col'>
+        <div className='w-full md:w-1/2 h-full pb-7 flex flex-col justify-center'>
           <div className='text-[#25265e]'>
-            <h1 className='text-4xl font-bold my-10'>Start programming <br /> for Free</h1>
-            <p className='my-10 text-[17px] pr-20'>
+            <h1 className='text-3xl md:text-4xl font-bold my-7 md:my-10'>Start programming <br /> for Free</h1>
+            <p className='my-7 md:my-10 text-[17px] md:pr-20'>
               Harness the power of our online compilers to write, run, and debug code instantly in multiple programming languages. No setup, no hassle - just pure coding at your fingertips.
             </p>
 
-            <div className='my-10'>
+            <div className='md:my-10'>
               <p className='font-bold text-lg text-[#66678E] mb-2'>Write your first code by clicking below</p>
               <CustomizedButtons />
             </div>
           </div>
         </div>
-        <div className='w-1/2'>
+        <div className='w-full md:w-1/2'>
           <img src="/images/bg-1.png" alt="hero-img" />
         </div>
       </div>
-      <div className='w-full h-[40%] px-24 pt-10 flex'>
-        <div className='text-[#25265e] w-1/5 mt-10'>
-          <h1 className='text-3xl font-bold'>Choose what to code</h1>
-          <p className='mt-5'>Start coding with the best programming languages.</p>
+      <div className='w-full md:h-[40%] mt-56 md:mt-0 h-full md:px-24 pt-10 flex flex-col md:flex-row'>
+        <div className='text-[#25265e] md:w-1/5 w-full px-5 mt-10'>
+          <h1 className='text-2xl md:text-3xl font-bold'>Choose what to code</h1>
+          <p className='mt-5 hidden md:flex'>Start coding with the best programming languages.</p>
         </div>
-        <div className='w-[52%] mx-10 flex flex-wrap'>
+        <div className='md:w-[52%] w-full md:mx-10 flex flex-col md:flex-row md:flex-wrap'>
           {
             LanguageData.map((obj, index) => {
               return (

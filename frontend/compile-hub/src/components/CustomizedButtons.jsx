@@ -17,7 +17,7 @@ export function CustomizedButtons({ children }) {
     return (
         <Stack spacing={2} direction="row">
             <NavLink to="/compiler">
-                <ColorButton variant="contained"><span className="px-5 text-lg capitalize">Start Coding <ArrowForwardRoundedIcon /></span></ColorButton>
+                <ColorButton variant="contained"><span className="md:px-5 px-12 text-lg capitalize">Start Coding <ArrowForwardRoundedIcon /></span></ColorButton>
             </NavLink>
         </Stack>
     );
