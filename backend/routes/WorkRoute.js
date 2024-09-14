@@ -1,6 +1,5 @@
 import express from "express";
-import { writeFileSync, unlinkSync, existsSync } from "fs";
-import { exec, execSync } from "child_process";
+import { handleCodeExecution } from "../services/HandleCode.js";
 
 const WorkRoute = express.Router();
 
@@ -22,84 +21,6 @@ WorkRoute.get("/logout", (req, res) => {
     });
 })
 
-// const runCommand = (command, cwd = process.cwd()) => {
-//     return new Promise((resolve, reject) => {
-//         exec(command, { cwd }, (error, stdout, stderr) => {
-//             if (error) {
-//                 reject({ error: error.message, stderr });
-//             } else {
-//                 resolve(stdout);
-//             }
-//         });
-//     });
-// };
-
-// // Function to handle file creation, execution, and cleanup
-// const handleCodeExecution = async (req, res, fileName, execCommandUnix, execCommandWin, cleanupFiles = []) => {
-//     const { code } = req.body;
-
-//     // Write code to file
-//     writeFileSync(fileName, code);
-
-//     try {
-//         // Determine the correct command based on the OS
-//         const isWin = process.platform === 'win32';
-//         const execCommand = isWin ? execCommandWin : execCommandUnix;
-
-//         // Compile or execute code
-//         const output = execSync(execCommand).toString();
-//         res.json({ output });
-//     } catch (err) {
-//         res.json(err);
-//     } finally {
-//         cleanupFiles.forEach(file => {
-//             if (existsSync(file)) unlinkSync(file);
-//         });
-//     }
-// };
-
-
-const runCommand = (command, cwd = process.cwd()) => {
-    return new Promise((resolve, reject) => {
-        exec(command, { cwd }, (error, stdout, stderr) => {
-            if (error) {
-                reject({ error: error.message, stderr: stderr.toString() });
-            } else {
-                resolve(stdout);
-            }
-        });
-    });
-};
-
-// Function to handle file creation, execution, and cleanup
-const handleCodeExecution = async (req, res, fileName, execCommandUnix, execCommandWin, cleanupFiles = []) => {
-    const { code } = req.body;
-
-    // Write code to file
-    writeFileSync(fileName, code);
-
-    try {
-        // Determine the correct command based on the OS
-        const isWin = process.platform === 'win32';
-        const execCommand = isWin ? execCommandWin : execCommandUnix;
-
-        // Compile or execute code
-        const output = execSync(execCommand).toString();
-        res.json({ output });
-    } catch (err) {
-        res.json({
-            error: err.message,
-            stderr: err.stderr ? err.stderr.toString() : ''
-        });
-    } finally {
-        // Cleanup files
-        cleanupFiles.forEach(file => {
-            if (existsSync(file)) unlinkSync(file);
-        });
-    }
-};
-
-// Endpoint to handle code execution based on language
 WorkRoute.post('/run', async (req, res) => {
     const { language, code } = req.body;
 
@@ -108,10 +29,10 @@ WorkRoute.post('/run', async (req, res) => {
             await handleCodeExecution(
                 req,
                 res,
-                'program.c',
-                'gcc program.c -o program && ./program',  // Unix-based
-                'gcc program.c -o program && program.exe',  // Windows
-                ['program.c', 'program', 'program.exe']
+                'main.c',
+                'gcc main.c -o program && ./program', 
+                'gcc main.c -o program && program.exe', 
+                ['main.c', 'program', 'program.exe']
             );
             break;
 
@@ -119,10 +40,10 @@ WorkRoute.post('/run', async (req, res) => {
             await handleCodeExecution(
                 req,
                 res,
-                'program.cpp',
-                'g++ program.cpp -o program && ./program',  // Unix-based
-                'g++ program.cpp -o program && program.exe',  // Windows
-                ['program.cpp', 'program', 'program.exe']
+                'main.cpp',
+                'g++ main.cpp -o program && ./program', 
+                'g++ main.cpp -o program && program.exe',
+                ['main.cpp', 'program', 'program.exe']
             );
             break;
 
@@ -131,8 +52,8 @@ WorkRoute.post('/run', async (req, res) => {
                 req,
                 res,
                 'Main.java',
-                'javac Main.java && java Main',  // Unix-based
-                'javac Main.java && java Main',  // Windows (same for both)
+                'javac Main.java && java Main', 
+                'javac Main.java && java Main',
                 ['Main.java', 'Main.class']
             );
             break;
@@ -141,10 +62,10 @@ WorkRoute.post('/run', async (req, res) => {
             await handleCodeExecution(
                 req,
                 res,
-                'script.js',
-                'node script.js',  // Unix-based
-                'node script.js',  // Windows (same for both)
-                ['script.js']
+                'main.js',
+                'node main.js',
+                'node main.js', 
+                ['main.js']
             );
             break;
 
@@ -152,10 +73,10 @@ WorkRoute.post('/run', async (req, res) => {
             await handleCodeExecution(
                 req,
                 res,
-                'script.py',
-                'python3 script.py',  // Unix-based
-                'python script.py',  // Windows
-                ['script.py']
+                'main.py',
+                'python3 main.py',  // Unix-based
+                'python main.py',  // Windows
+                ['main.py']
             );
             break;
 
@@ -164,13 +85,6 @@ WorkRoute.post('/run', async (req, res) => {
             break;
     }
 });
-
-
-// Endpoint to handle code execution based on language
-// WorkRoute.post('/run', async (req, res) => {
-//     const { language, code } = req.body;
-// });
-
 
 
 export default WorkRoute;

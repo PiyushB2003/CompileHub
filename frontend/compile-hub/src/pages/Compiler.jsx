@@ -5,7 +5,6 @@ import { NavLink } from 'react-router-dom';
 import Editor from '@monaco-editor/react';
 import { Boilerplates } from '../utils/BoilerplateCode';
 import AccountMenu from '../components/AccountMenu';
-import { MakeSubmission } from '../services/Service';
 import { AutoAwesomeIcon, DarkModeIcon, FullscreenRoundedIcon } from '../utils/Icons';
 import axios from "axios";
 
@@ -35,6 +34,12 @@ const Compiler = () => {
     { url: "/images/c_white.png", language: "c" }
   ];
 
+  const saveToLocalStorage = (code, input, language) => {
+    localStorage.setItem('savedCode', code);
+    localStorage.setItem('savedInput', input);
+    localStorage.setItem('savedLanguage', language);
+  };
+
   const HandleClick = (obj) => {
     setLanguage(obj.language);
     setCode(Boilerplates[obj.language]);  // Load the boilerplate for the selected language
@@ -42,33 +47,10 @@ const Compiler = () => {
 
   const HandleEditorChange = (value, event) => {
     setCode(value);
-  };
-
-  const callBack = ({ apiStatus, data, message }) => {
-    if (apiStatus === "loading") {
-      setLoading(true);
-    } else if (apiStatus === "error") {
-      setLoading(false);
-      console.error("Error: ", message);
-      setOutput("Something went wrong!");
-    } else {
-      setLoading(false);
-      if (data.status.id === 3) {
-        setOutput(atob(data.stdout));
-      } else {
-        setOutput(atob(data.stderr));
-      }
-    }
+    saveToLocalStorage(value, input, language); // Save to localStorage
   };
 
   const HandleCodeSubmit = async () => {
-    // MakeSubmission({
-    //   code,
-    //   language,  // Use the updated language state here
-    //   callBack,
-    //   stdin: input,
-    // });
-
     setLoading(true);
     setError('');
     setOutput('');
@@ -76,17 +58,17 @@ const Compiler = () => {
     try {
       const response = await axios.post('http://localhost:4000/run', {
         code,
+        input,
         language,
       });
       console.log(response.data);
-      
+
       setOutput(response.data.output || response.data.stderr || 'No output');
     } catch (error) {
       setError('Error executing code: ' + error.message);
     } finally {
       setLoading(false);
     }
-
   };
 
   const HandleClear = () => {
@@ -94,6 +76,14 @@ const Compiler = () => {
   };
 
   useEffect(() => {
+    const savedCode = localStorage.getItem('savedCode');
+    const savedInput = localStorage.getItem('savedInput');
+    const savedLanguage = localStorage.getItem('savedLanguage');
+
+    if (savedCode) setCode(savedCode);
+    if (savedInput) setInput(savedInput);
+    if (savedLanguage) setLanguage(savedLanguage);
+
     window?.monaco?.editor?.defineTheme('myCustomTheme', customTheme);
   }, []);
 
@@ -180,6 +170,7 @@ const Compiler = () => {
           <div className="h-1/2 w-full">
             <div className='border-b border-zinc-300 bg-[#FBFBFB] h-[18%] w-full flex items-center justify-between px-4'>
               <p className='font-semibold text-[#757171]'>Input</p>
+              <button className='text-[#757171] border border-zinc-300 px-4 py-1 text-[14px] hover:bg-gray-200' onClick={HandleClear}>Clear</button>
             </div>
             <div className='h-[82%] w-full'>
               <textarea name="input" cols="67" className='border-none outline-none h-[90%] ml-4 mt-2 resize-none' value={input} onChange={(e) => setInput(e.target.value)}></textarea>
