@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Context } from "./Context.js"
 import { toast } from 'react-toastify';
+import { Boilerplates } from '../utils/BoilerplateCode.js';
+import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
 
 const ContextProvider = (props) => {
@@ -10,8 +12,62 @@ const ContextProvider = (props) => {
     const [userEmail, setUserEmail] = useState("");
     const [userName, setUserName] = useState("");
     const [logged, setLogged] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [code, setCode] = useState(Boilerplates["cpp"]);
+    const [error, setError] = useState("");
+    const [language, setLanguage] = useState("cpp");
+    const [input, setInput] = useState("");
+    const [output, setOutput] = useState("");
     const [loggedFromEmail, setLoggedFromEmail] = useState(false);
     const navigate = useNavigate();
+
+
+    const saveToLocalStorage = (code, input, language) => {
+        localStorage.setItem('savedCode', code);
+        localStorage.setItem('savedInput', input);
+        localStorage.setItem('savedLanguage', language);
+    };
+
+    const HandleCodeSubmit = async () => {
+        setLoading(true);
+        setError('');
+        setOutput('');
+
+        try {
+            const response = await axios.post('http://localhost:4000/run', {
+                code,
+                input,
+                language,
+            });
+            console.log(response.data);
+
+            setOutput(response.data.output || response.data.stderr || 'No output');
+        } catch (error) {
+            setError('Error executing code: ' + error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const HandleEditorChange = (value, event) => {
+        setCode(value);
+        saveToLocalStorage(value, input, language); // Save to localStorage
+    };
+
+    const HandleClick = (obj) => {
+        setLanguage(obj.language);
+        setCode(Boilerplates[obj.language]);
+    };
+
+    useEffect(() => {
+        const savedCode = localStorage.getItem('savedCode');
+        const savedInput = localStorage.getItem('savedInput');
+        const savedLanguage = localStorage.getItem('savedLanguage');
+
+        if (savedCode) setCode(savedCode);
+        if (savedInput) setInput(savedInput);
+        if (savedLanguage) setLanguage(savedLanguage);
+    }, []);
 
     useEffect(() => {
         fetch(`${import.meta.env.VITE_BACKEND_HOST_URL}/auth/status`, {
@@ -75,6 +131,18 @@ const ContextProvider = (props) => {
         userEmail,
         avatar,
         loggedFromEmail,
+        code,
+        language,
+        error,
+        output,
+        input,
+        loading,
+        setCode,
+        setLanguage,
+        setError,
+        setOutput,
+        setInput,
+        setLoading,
         setLoggedFromEmail,
         setAvatar,
         setUserEmail,
@@ -83,6 +151,9 @@ const ContextProvider = (props) => {
         setIsAuthenticated,
         GoogleLogin,
         GoogleLogout,
+        HandleClick,
+        HandleCodeSubmit,
+        HandleEditorChange
     };
 
     return (
