@@ -31,7 +31,6 @@ function App() {
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/compiler' element={<PrivateRoute element={<Compiler />} />} />
-            <Route path='/optimise' element={<PrivateRoute element={<Optimise />} />} />
             <Route path='/signup' element={<Signup />} />
             <Route path='/login' element={<Login />} />
             <Route path='*' element={<Error />} />
