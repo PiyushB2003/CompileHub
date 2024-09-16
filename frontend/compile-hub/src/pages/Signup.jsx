@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { NavLink, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import TextField from '@mui/material/TextField';
@@ -8,12 +8,14 @@ import {
 } from "../utils/Icons.js"
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Context } from '../context/Context.js';
 
 const Signup = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const {GoogleLogin} = useContext(Context);
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -134,7 +136,7 @@ const Signup = () => {
             </div>
 
             <div className="flex justify-center space-x-4 mt-4">
-              <button className="bg-white hover:bg-zinc-100 text-black p-3 flex justify-center items-center rounded-lg shadow-md w-full border border-zinc-300 transition duration-300">
+              <button className="bg-white hover:bg-zinc-100 text-black p-3 flex justify-center items-center rounded-lg shadow-md w-full border border-zinc-300 transition duration-300" onClick={GoogleLogin}>
                 <img src="/images/google_logo.png" alt="google_icon" className='size-6 mr-5' /> <span>Sign up with Google</span>
               </button>
             </div>

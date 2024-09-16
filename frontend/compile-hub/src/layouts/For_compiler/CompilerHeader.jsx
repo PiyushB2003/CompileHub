@@ -1,8 +1,7 @@
-import React, { useContext, useState } from 'react'
-import { Context } from '../../context/Context'
+import React, { useContext } from 'react';
+import { Context } from '../../context/Context';
 import { NavLink } from 'react-router-dom';
 import AccountMenu from "../../components/AccountMenu";
-import { AutoAwesomeIcon } from '../../utils/Icons';
 import BasicPopover from '../../components/BasicPopover';
 
 const CompilerHeader = () => {

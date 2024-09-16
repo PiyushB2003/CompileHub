@@ -3,9 +3,36 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { KeyboardArrowDownIcon, KeyboardArrowUpIcon } from '../utils/Icons';
+import { NavLink } from 'react-router-dom';
+import { Boilerplates } from '../utils/BoilerplateCode';
+import { Context } from '../context/Context';
 
+
+const Languages = [
+    {
+        language_code: "cpp",
+        language_name: "C++"
+    },
+    {
+        language_code: "java",
+        language_name: "Java"
+    },
+    {
+        language_code: "python",
+        language_name: "Python"
+    },
+    {
+        language_code: "javascript",
+        language_name: "JavaScript"
+    },
+    {
+        language_code: "c",
+        language_name: "C"
+    },
+];
 export default function BasicMenu() {
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const {setCode, setLanguage} = React.useContext(Context);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -41,11 +68,20 @@ export default function BasicMenu() {
                     'aria-labelledby': 'basic-button',
                 }}
             >
-                <MenuItem onClick={handleClose}>C++</MenuItem>
-                <MenuItem onClick={handleClose}>Java</MenuItem>
-                <MenuItem onClick={handleClose}>Python</MenuItem>
-                <MenuItem onClick={handleClose}>JavaScript</MenuItem>
-                <MenuItem onClick={handleClose}>C</MenuItem>
+                {
+                    Languages.map((obj, index) => {
+                        return (
+                            <NavLink to="/compiler" key={index} onClick={() => {
+                                setLanguage(obj.language_code)
+                                setCode(Boilerplates[obj.language_code])
+                            }}>
+                                <MenuItem onClick={handleClose}>
+                                    {obj.language_name}
+                                </MenuItem>
+                            </NavLink>
+                        )
+                    })
+                }
             </Menu>
         </div>
     );

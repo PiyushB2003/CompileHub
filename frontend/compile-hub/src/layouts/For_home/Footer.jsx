@@ -1,78 +1,85 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { CallIcon, EmailIcon, GitHubIcon, HomeIcon, InstagramIcon, LinkedInIcon } from '../../utils/Icons';
 import { NavLink } from 'react-router-dom';
+import { Context } from '../../context/Context';
+import { Boilerplates } from '../../utils/BoilerplateCode';
 
+const languages = [
+  {
+    name: "C++",
+    language_code: "cpp",
+    redirect: "/compiler"
+  },
+  {
+    name: "Java",
+    language_code: "java",
+    redirect: "/compiler"
+  },
+  {
+    name: "Python",
+    language_code: "python",
+    redirect: "/compiler"
+  },
+  {
+    name: "JavaScript",
+    language_code: "javascript",
+    redirect: "/compiler"
+  },
+  {
+    name: "C",
+    language_code: "c",
+    redirect: "/compiler"
+  }
+];
+
+const linkNames = [
+  {
+    name: "Home",
+    redirect: "/"
+  },
+  {
+    name: "Compiler",
+    redirect: "/compiler"
+  },
+  {
+    name: "Login",
+    redirect: "/login"
+  },
+  {
+    name: "Signup",
+    redirect: "/signup"
+  }
+];
+const ContactData = [
+  {
+    icon: <HomeIcon className='scale-110' />,
+    text: "Nagpur, Maharashtra, India"
+  },
+  {
+    icon: <EmailIcon />,
+    text: "piyushborkar95@gmail.com"
+  },
+  {
+    icon: <CallIcon />,
+    text: "+ 91 9764-057-350"
+  },
+]
+const SocialHandles = [
+  {
+    icon: <LinkedInIcon />,
+    redirect: "https://www.linkedin.com/in/piyushborkar/"
+  },
+  {
+    icon: <GitHubIcon />,
+    redirect: "https://github.com/PiyushB2003"
+  },
+  {
+    icon: <InstagramIcon />,
+    redirect: "https://www.instagram.com/_piyush_borkar_"
+  },
+]
 export default function Footer() {
-
-  const languages = [
-    {
-      name: "C++",
-      redirect: "/compiler"
-    },
-    {
-      name: "Java",
-      redirect: "/compiler"
-    },
-    {
-      name: "Python",
-      redirect: "/compiler"
-    },
-    {
-      name: "JavaScript",
-      redirect: "/compiler"
-    },
-    {
-      name: "C",
-      redirect: "/compiler"
-    }
-  ];
-
-  const linkNames = [
-    {
-      name: "Home",
-      redirect: "/"
-    },
-    {
-      name: "Compiler",
-      redirect: "/compiler"
-    },
-    {
-      name: "Login",
-      redirect: "/login"
-    },
-    {
-      name: "Signup",
-      redirect: "/signup"
-    }
-  ];
-  const ContactData = [
-    {
-      icon: <HomeIcon className='scale-110' />,
-      text: "Nagpur, Maharashtra, India"
-    },
-    {
-      icon: <EmailIcon />,
-      text: "piyushborkar95@gmail.com"
-    },
-    {
-      icon: <CallIcon />,
-      text: "+ 91 9764-057-350"
-    },
-  ]
-  const SocialHandles = [
-    {
-      icon: <LinkedInIcon />,
-      redirect: "https://www.linkedin.com/in/piyushborkar/"
-    },
-    {
-      icon: <GitHubIcon />,
-      redirect: "https://github.com/PiyushB2003"
-    },
-    {
-      icon: <InstagramIcon />,
-      redirect: "https://www.instagram.com/_piyush_borkar_"
-    },
-  ]
+  const {setCode, setLanguage} = useContext(Context);
   return (
     <footer
       className="bg-neutral-100 text-center mt-60 text-neutral-600 dark:bg-[#2B324D] dark:text-neutral-200 lg:text-left">
@@ -121,8 +128,11 @@ export default function Footer() {
             {
               languages.map((obj, index) => {
                 return (
-                  <p className="mb-4" key={index}>
-                    <NavLink to={obj.redirect} className="text-neutral-600 cursor-pointer hover:text-[#00cd9d] transition duration-300  dark:text-neutral-200"
+                  <p className="mb-4" key={obj.language_code}>
+                    <NavLink to={obj.redirect} className="text-neutral-600 cursor-pointer hover:text-[#00cd9d] transition duration-300  dark:text-neutral-200" onClick={() => {
+                      setLanguage(obj.language_code)
+                      setCode(Boilerplates[obj.language_code])
+                    }}
                     >{obj.name}</NavLink>
                   </p>
                 )

@@ -1,37 +1,46 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { CustomizedButtons } from '../../components/CustomizedButtons'
 import { ArrowForwardRoundedIcon } from "../../utils/Icons.js"
 import { NavLink } from "react-router-dom";
+import { Context } from '../../context/Context.js';
+import { Boilerplates } from '../../utils/BoilerplateCode.js';
+
+
+const LanguageData = [
+  {
+    language_name: "C++",
+    language_code: "cpp",
+    language_img_url: "/images/cpp_white.png",
+    language_link: "/compiler"
+  },
+  {
+    language_name: "Java",
+    language_code: "java",
+    language_img_url: "/images/java_white.png",
+    language_link: "/compiler"
+  },
+  {
+    language_name: "Python",
+    language_code: "python",
+    language_img_url: "/images/python_white.png",
+    language_link: "/compiler"
+  },
+  {
+    language_name: "JavaScipt",
+    language_code: "javascript",
+    language_img_url: "/images/js_white.png",
+    language_link: "/compiler"
+  },
+  {
+    language_name: "C",
+    language_code: "c",
+    language_img_url: "/images/c_white.png",
+    language_link: "/compiler"
+  }
+]
 
 const HeroSection = () => {
-
-  const LanguageData = [
-    {
-      language_name: "C++",
-      language_img_url: "/images/cpp_white.png",
-      language_link: "/"
-    },
-    {
-      language_name: "Java",
-      language_img_url: "/images/java_white.png",
-      language_link: "/"
-    },
-    {
-      language_name: "Python",
-      language_img_url: "/images/python_white.png",
-      language_link: "/"
-    },
-    {
-      language_name: "JavaScipt",
-      language_img_url: "/images/js_white.png",
-      language_link: "/"
-    },
-    {
-      language_name: "C",
-      language_img_url: "/images/c_white.png",
-      language_link: "/"
-    }
-  ]
+  const { setLanguage, setCode } = useContext(Context);
 
   return (
     <>
@@ -62,7 +71,15 @@ const HeroSection = () => {
           {
             LanguageData.map((obj, index) => {
               return (
-                <a href={obj.language_link} key={index} className="w-1/2 transition duration-300 my-3 hover:scale-105 px-2">
+                <NavLink
+                  to={obj.language_link}
+                  key={obj.language_code}  // Ensure the key is unique
+                  className="w-1/2 transition duration-300 my-3 hover:scale-105 px-2"
+                  onClick={() => {
+                    setLanguage(obj.language_code);
+                    setCode(Boilerplates[obj.language_code])
+                  }}
+                >
                   <div className="flex items-center text-[#25265e] font-semibold w-[272px] py-3 mx-5 pl-5 rounded border border-zinc-300 shadow-lg">
                     <span className="bg-[#17183B] w-9 h-9 rounded-full flex items-center justify-center">
                       <img src={obj.language_img_url} alt={obj.language_name} className="w-6 h-6 object-contain" />
@@ -71,7 +88,7 @@ const HeroSection = () => {
                       {obj.language_name} Programming
                     </span>
                   </div>
-                </a>
+                </NavLink>
               );
             })
           }
