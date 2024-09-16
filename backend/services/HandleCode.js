@@ -15,14 +15,14 @@ const runCommand = (command, input, cwd = process.cwd()) => {
 };
 
 const handleCodeExecution = async (req, res, fileName, execCommandUnix, execCommandWin, cleanupFiles = []) => {
-    const { code, input } = req.body; 
+    const { code, input } = req.body;
 
     writeFileSync(fileName, code);
 
     try {
         const isWin = process.platform === 'win32';
         const execCommand = isWin ? execCommandWin : execCommandUnix;
-        
+
         const output = execSync(execCommand, { input: input }).toString();
         res.json({ output });
     } catch (err) {
@@ -32,9 +32,15 @@ const handleCodeExecution = async (req, res, fileName, execCommandUnix, execComm
         });
     } finally {
         cleanupFiles.forEach(file => {
-            if (existsSync(file)) unlinkSync(file);
+            if (existsSync(file)) {
+                try {
+                    unlinkSync(file);
+                } catch (unlinkErr) {
+                    console.error(`Failed to delete file ${file}:`, unlinkErr.message);
+                }
+            }
         });
     }
 };
 
-export {runCommand, handleCodeExecution};
+export { runCommand, handleCodeExecution };

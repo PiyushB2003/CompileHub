@@ -1,5 +1,6 @@
-import express from "express";
+import express, { response } from "express";
 import { handleCodeExecution } from "../services/HandleCode.js";
+import run from "../services/GeminiApi.js";
 
 const WorkRoute = express.Router();
 
@@ -23,15 +24,14 @@ WorkRoute.get("/logout", (req, res) => {
 
 WorkRoute.post('/run', async (req, res) => {
     const { language, code } = req.body;
-
     switch (language) {
         case 'c':
             await handleCodeExecution(
                 req,
                 res,
                 'main.c',
-                'gcc main.c -o program && ./program', 
-                'gcc main.c -o program && program.exe', 
+                'gcc main.c -o program && ./program',
+                'gcc main.c -o program && program.exe',
                 ['main.c', 'program', 'program.exe']
             );
             break;
@@ -41,7 +41,7 @@ WorkRoute.post('/run', async (req, res) => {
                 req,
                 res,
                 'main.cpp',
-                'g++ main.cpp -o program && ./program', 
+                'g++ main.cpp -o program && ./program',
                 'g++ main.cpp -o program && program.exe',
                 ['main.cpp', 'program', 'program.exe']
             );
@@ -52,7 +52,7 @@ WorkRoute.post('/run', async (req, res) => {
                 req,
                 res,
                 'Main.java',
-                'javac Main.java && java Main', 
+                'javac Main.java && java Main',
                 'javac Main.java && java Main',
                 ['Main.java', 'Main.class']
             );
@@ -64,7 +64,7 @@ WorkRoute.post('/run', async (req, res) => {
                 res,
                 'main.js',
                 'node main.js',
-                'node main.js', 
+                'node main.js',
                 ['main.js']
             );
             break;
@@ -74,8 +74,8 @@ WorkRoute.post('/run', async (req, res) => {
                 req,
                 res,
                 'main.py',
-                'python3 main.py',  // Unix-based
-                'python main.py',  // Windows
+                'python3 main.py',
+                'python main.py',
                 ['main.py']
             );
             break;
@@ -86,5 +86,22 @@ WorkRoute.post('/run', async (req, res) => {
     }
 });
 
+WorkRoute.post("/optimise", async (req, res) => {
+    const { code } = req.body;
+    if (!code || typeof code !== 'string') {
+        return res.status(400).json({ message: "Invalid or missing code", success: false });
+    }
+    try {
+        const optCode = await run(`${code}\n\nOptimize the above code`);
+        if (optCode) {
+            return res.status(201).json({ response: optCode, success: true });
+        } else {
+            return res.status(500).json({ message: "Failed to optimize code", success: false });
+        }
+    } catch (error) {
+        console.log("Gemini api error: ", error);
+        return res.status(500).json({ message: "Internal server error", success: false });
+    }
+})
 
 export default WorkRoute;

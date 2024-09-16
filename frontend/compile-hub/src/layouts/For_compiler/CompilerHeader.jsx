@@ -1,9 +1,10 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Context } from '../../context/Context'
 import Button from '@mui/material/Button';
 import { NavLink } from 'react-router-dom';
 import AccountMenu from "../../components/AccountMenu";
 import { AutoAwesomeIcon } from '../../utils/Icons';
+import BasicPopover from '../../components/BasicPopover';
 
 const CompilerHeader = () => {
     const { language } = useContext(Context);
@@ -22,9 +23,12 @@ const CompilerHeader = () => {
                 </span>
             </div>
             <div className='flex items-center'>
-                <Button variant="outlined">
-                    <span className='font-semibold flex items-center capitalize text-[16px]'><AutoAwesomeIcon /> <span className='ml-1'>Optimise code with AI</span></span>
-                </Button>
+                {/* <NavLink to={`/optimise?text=${encodeURIComponent(optimiseText)}`} target='_blank'> */}
+                {/* <Button variant="outlined" onClick={GetOptimisedCode}>
+                    <span className='font-semibold flex items-center capitalize text-[16px]'> <span><AutoAwesomeIcon /> <span className='ml-1'>Optimisation <span className=' lowercase'>tips with</span> AI</span> </span> </span>
+                </Button> */}
+                <BasicPopover />
+                {/* </NavLink> */}
                 {logged && <div className='ml-2'><AccountMenu /></div>}
             </div>
         </div>

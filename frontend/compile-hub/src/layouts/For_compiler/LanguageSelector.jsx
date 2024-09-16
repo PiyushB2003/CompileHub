@@ -17,14 +17,14 @@ const LanguageSelector = () => {
                     key={index}
                     className={`bg-[#EFF2F7] border border-zinc-300 mt-2 w-9 h-9 flex items-center justify-center cursor-pointer
                 ${language === obj.language ? 'bg-blue-700' : ''}  // Blue background if active
-              `}
+                `}
                     onClick={() => HandleClick(obj)}
                 >
                     <img
                         src={obj.url}
                         alt={`${obj.language} logo`}
                         className={`w-6 h-6 object-contain 
-                  ${language === obj.language ? 'filter-none' : 'grayscale-[100%] brightness-[60%]'}
+                        ${language === obj.language ? 'filter-none' : 'grayscale-[100%] brightness-[60%]'}
                 `}
                     />
                 </span>

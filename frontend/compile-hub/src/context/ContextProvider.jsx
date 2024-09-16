@@ -13,14 +13,15 @@ const ContextProvider = (props) => {
     const [userName, setUserName] = useState("");
     const [logged, setLogged] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [preLoader, setPreLoader] = useState(true);
     const [code, setCode] = useState(Boilerplates["cpp"]);
     const [error, setError] = useState("");
+    const [optimiseText, setOptimiseText] = useState("");
     const [language, setLanguage] = useState("cpp");
     const [input, setInput] = useState("");
     const [output, setOutput] = useState("");
     const [loggedFromEmail, setLoggedFromEmail] = useState(false);
     const navigate = useNavigate();
-
 
     const saveToLocalStorage = (code, input, language) => {
         localStorage.setItem('savedCode', code);
@@ -34,7 +35,7 @@ const ContextProvider = (props) => {
         setOutput('');
 
         try {
-            const response = await axios.post('http://localhost:4000/run', {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_HOST_URL}/run`, {
                 code,
                 input,
                 language,
@@ -49,9 +50,23 @@ const ContextProvider = (props) => {
         }
     };
 
+    const GetOptimisedCode = () => {
+        axios.post(`${import.meta.env.VITE_BACKEND_HOST_URL}/optimise`, { code })
+            .then((result) => {
+                setPreLoader(false);
+                setOptimiseText(result.data.response);
+            })
+            .catch(error => {
+                setPreLoader(false);
+                console.error("Error in Optimised code: ", error);
+                setOptimiseText("Error occured to get tips")
+            });
+        setPreLoader(true);
+    }
+
     const HandleEditorChange = (value, event) => {
         setCode(value);
-        saveToLocalStorage(value, input, language); // Save to localStorage
+        saveToLocalStorage(value, input, language);
     };
 
     const HandleClick = (obj) => {
@@ -94,7 +109,7 @@ const ContextProvider = (props) => {
     useEffect(() => {
         const token = localStorage.getItem("UserLogged");
         if (token) {
-            setIsAuthenticated(true);  // Update based on stored token
+            setIsAuthenticated(true);
         }
     }, []);
 
@@ -109,7 +124,6 @@ const ContextProvider = (props) => {
 
     const GoogleLogin = () => {
         window.open(`${import.meta.env.VITE_BACKEND_HOST_URL}/auth/google`, "_self");
-        // toast.success("Logged In successful");
         setIsAuthenticated(true);
     }
 
@@ -137,6 +151,10 @@ const ContextProvider = (props) => {
         output,
         input,
         loading,
+        optimiseText,
+        preLoader,
+        setPreLoader,
+        setOptimiseText,
         setCode,
         setLanguage,
         setError,
@@ -151,6 +169,7 @@ const ContextProvider = (props) => {
         setIsAuthenticated,
         GoogleLogin,
         GoogleLogout,
+        GetOptimisedCode,
         HandleClick,
         HandleCodeSubmit,
         HandleEditorChange
