@@ -13,7 +13,6 @@ const EditorHeader = () => {
                 </span>
             </div>
             <div className='h-full flex items-center'>
-                <button className='border border-zinc-300 p-1 mx-2 text-[#757171]'><FullscreenRoundedIcon className='scale-110' /></button>
                 <button className='border border-zinc-300 p-1 mx-2 text-[#757171]'><DarkModeIcon className='scale-90' /></button>
                 <button className='bg-[#0556F3] hover:bg-[#0047D1] transition duration-300 text-white ml-2 mr-4 font-semibold w-20 h-9 flex items-center justify-center border border-[#0556F3] hover:border-[#0047D1]' onClick={HandleCodeSubmit}>
                     {loading ? (
