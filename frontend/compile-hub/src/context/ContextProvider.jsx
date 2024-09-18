@@ -18,6 +18,7 @@ const ContextProvider = (props) => {
     const [error, setError] = useState("");
     const [optimiseText, setOptimiseText] = useState("");
     const [language, setLanguage] = useState("cpp");
+    const [isDarkMode, setIsDarkMode] = useState(false);
     const [input, setInput] = useState("");
     const [output, setOutput] = useState("");
     const [loggedFromEmail, setLoggedFromEmail] = useState(false);
@@ -153,6 +154,8 @@ const ContextProvider = (props) => {
         loading,
         optimiseText,
         preLoader,
+        isDarkMode,
+        setIsDarkMode,
         setPreLoader,
         setOptimiseText,
         setCode,

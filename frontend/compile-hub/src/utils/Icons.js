@@ -15,6 +15,7 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
 import VisibilityOffRoundedIcon from '@mui/icons-material/VisibilityOffRounded';
+import MenuIcon from '@mui/icons-material/Menu';
 
 export {
     KeyboardArrowUpIcon,
@@ -26,6 +27,7 @@ export {
     GitHubIcon,
     EmailIcon,
     CallIcon,
+    MenuIcon,
     HomeIcon,
     AutoAwesomeIcon,
     FullscreenRoundedIcon,

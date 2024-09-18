@@ -10,7 +10,6 @@ import Error from './pages/Error';
 import "./index.css";
 import { ContextProvider } from './context/ContextProvider';
 import RefreshHandler from './components/RefreshHandler';
-import Optimise from './pages/Optimise';
 
 function App() {
   function PrivateRoute({ element }) {

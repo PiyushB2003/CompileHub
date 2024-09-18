@@ -44,8 +44,8 @@ const HeroSection = () => {
 
   return (
     <>
-      <div className='w-full flex md:px-24 mt-28 md:mt-0 px-5 h-[90%] md:pt-5 md:flex-row flex-col'>
-        <div className='w-full md:w-1/2 h-full pb-7 flex flex-col justify-center'>
+      <div className='w-full flex md:px-10 md:mt-20 lg:px-24 mt-28 lg:mt-0 px-5 h-[90%] md:pt-5 md:flex-row flex-col'>
+        <div className='w-full pt-10 md:w-1/2 h-full pb-7 flex flex-col justify-center'>
           <div className='text-[#25265e]'>
             <h1 className='text-3xl md:text-4xl font-bold my-7 md:my-10'>Start programming <br /> for Free</h1>
             <p className='my-7 md:my-10 text-[17px] md:pr-20'>
@@ -58,29 +58,29 @@ const HeroSection = () => {
             </div>
           </div>
         </div>
-        <div className='w-full md:w-1/2'>
+        <div className='w-full flex justify-center md:justify-normal md:w-1/2'>
           <img src="/images/bg-1.png" alt="hero-img" />
         </div>
       </div>
-      <div className='w-full md:h-[40%] mt-56 md:mt-0 h-full md:px-24 pt-10 flex flex-col md:flex-row'>
-        <div className='text-[#25265e] md:w-1/5 w-full px-5 mt-10'>
-          <h1 className='text-2xl md:text-3xl font-bold'>Choose what to code</h1>
+      <div className='w-full sm:pt-40 md:h-[40%] mt-56  h-[180%] md:px-10 lg:px-24 md:pt-10 flex flex-col items-center justify-center md:flex-row'>
+        <div className='text-[#25265e] lg:w-1/5 w-full lg:px-5 lg:mt-10'>
+          <h1 className='text-2xl md:text-3xl font-bold md:text-left text-center md:pl-0'>Choose what to code</h1>
           <p className='mt-5 hidden md:flex'>Start coding with the best programming languages.</p>
         </div>
-        <div className='md:w-[52%] w-full md:mx-10 flex flex-col md:flex-row md:flex-wrap'>
+        <div className='md:w-[52%] w-full md:mx-10 flex flex-col md:flex-row md:flex-wrap justify-center'>
           {
             LanguageData.map((obj, index) => {
               return (
                 <NavLink
                   to={obj.language_link}
-                  key={obj.language_code}  // Ensure the key is unique
-                  className="w-1/2 transition duration-300 my-3 hover:scale-105 px-2"
+                  key={obj.language_code}
+                  className="w-auto transition duration-300 my-3 hover:scale-105 px-2 mx-auto" // Replace w-1/2 with w-auto and add mx-auto
                   onClick={() => {
                     setLanguage(obj.language_code);
-                    setCode(Boilerplates[obj.language_code])
+                    setCode(Boilerplates[obj.language_code]);
                   }}
                 >
-                  <div className="flex items-center text-[#25265e] font-semibold w-[272px] py-3 mx-5 pl-5 rounded border border-zinc-300 shadow-lg">
+                  <div className="flex items-center text-[#25265e] font-semibold w-[272px] py-3 mx-5 md:mx-0 pl-5 rounded border border-zinc-300 shadow-lg">
                     <span className="bg-[#17183B] w-9 h-9 rounded-full flex items-center justify-center">
                       <img src={obj.language_img_url} alt={obj.language_name} className="w-6 h-6 object-contain" />
                     </span>
@@ -92,7 +92,7 @@ const HeroSection = () => {
               );
             })
           }
-          <NavLink to="/compiler" className="w-1/2 my-3 hover:scale-105 px-2">
+          <NavLink to="/compiler" className="w-auto my-3 hover:scale-105 px-2 mx-auto"> {/* Replace w-1/2 with w-auto */}
             <div className="flex items-center text-blue-500 font-semibold w-[272px] py-[18px] mx-5 pl-7 rounded border border-zinc-300 shadow-lg">
               <span>
                 View in Compiler <ArrowForwardRoundedIcon />
@@ -101,6 +101,7 @@ const HeroSection = () => {
           </NavLink>
         </div>
       </div>
+
     </>
 
   )

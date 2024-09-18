@@ -1,8 +1,11 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
+import CssBaseline from '@mui/material/CssBaseline'; // This helps with theme background
+import { Context } from '../context/Context';
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 62,
@@ -60,13 +63,32 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-
 export default function CustomizedSwitches() {
+  const {isDarkMode, setIsDarkMode} = React.useContext(Context);
+  const lightTheme = createTheme({
+    palette: {
+      mode: 'light',
+    },
+  });
+
+  const darkTheme = createTheme({
+    palette: {
+      mode: 'dark',
+    },
+  });
+
+  const handleThemeChange = (event) => {
+    setIsDarkMode(event.target.checked);
+  };
+
   return (
-    <FormGroup>
-      <FormControlLabel
-        control={<MaterialUISwitch sx={{ m: 1 }} />}
-      />
-    </FormGroup>
+    <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
+      <CssBaseline /> {/* This applies the theme to the entire app */}
+      <FormGroup>
+        <FormControlLabel
+          control={<MaterialUISwitch checked={isDarkMode} onChange={handleThemeChange} />}
+        />
+      </FormGroup>
+    </ThemeProvider>
   );
 }

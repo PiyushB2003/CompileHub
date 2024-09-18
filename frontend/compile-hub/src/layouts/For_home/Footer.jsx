@@ -82,14 +82,14 @@ export default function Footer() {
   const {setCode, setLanguage} = useContext(Context);
   return (
     <footer
-      className="bg-neutral-100 text-center mt-60 text-neutral-600 dark:bg-[#2B324D] dark:text-neutral-200 lg:text-left">
+      className="bg-neutral-100 text-center md:mt-60 text-neutral-600 dark:bg-[#2B324D] dark:text-neutral-200 lg:text-left">
       <div
         className="flex items-center justify-center border-b-2 border-neutral-200 py-6 dark:border-neutral-500 lg:justify-between">
         <div className="hidden lg:block pl-24">
           <span>Get connected with us on social networks:</span>
         </div>
         {/* <!-- Social network icons container --> */}
-        <div className="flex justify-center pr-24">
+        <div className="flex justify-center items-center md:pr-24">
           {
             SocialHandles.map((obj, index) => {
               return (
@@ -106,16 +106,16 @@ export default function Footer() {
 
       {/* <!-- Main container div: holds the entire content of the footer, including four sections (TW Elements, Products, Useful links, and Contact), with responsive styling and appropriate padding/margins. --> */}
       <div className="py-10 text-center md:text-left">
-        <div className="grid-1 px-24 grid gap-20 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid-1 md:px-24 grid gap-20 md:grid-cols-2 lg:grid-cols-4">
           {/* <!-- TW Elements section --> */}
-          <div className="">
+          <div className="text-center md:text-left">
             <a
               href='/'
               className="mb-4 flex items-center justify-center font-semibold md:justify-start">
               <img src="/images/logo.png" alt="Logo" className='size-8' />
               <span className='text-xl font-bold text-[#00cd9d]'>Compile<span className='text-[#757171]'>Hub</span></span>
             </a>
-            <p>
+            <p className='px-5'>
               Harness the power of our online compilers to write, run, and debug code instantly in multiple programming languages.
             </p>
           </div>
