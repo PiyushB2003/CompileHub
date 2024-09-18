@@ -18,18 +18,18 @@ const Compiler = () => {
       <CompilerHeader/>
 
       {/* Main Body */}
-      <div className='w-full h-[85%] flex'>
+      <div className='w-full h-[85%] flex flex-col md:flex-row'>
         {/* Language Selector */}
         <LanguageSelector/>
 
         {/* Code Editor */}
-        <div className='h-full w-[56%] border-r border-zinc-300'>
+        <div className='h-full w-full md:w-[56%] border-r border-zinc-300'>
           <EditorHeader/>
           <EditorContainer />
         </div>
 
         {/* Input and Output Section */}
-        <div className='h-full w-2/5'>
+        <div className='h-full w-full md:w-2/5'>
           {/* Input Section */}
           <InputContainer />
 

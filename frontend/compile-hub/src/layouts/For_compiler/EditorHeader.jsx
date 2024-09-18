@@ -6,7 +6,7 @@ import { Context } from '../../context/Context';
 const EditorHeader = () => {
     const { language, HandleCodeSubmit, loading } = useContext(Context);
     return (
-        <div className='bg-[#FBFBFB] w-full border-b flex items-center justify-between border-zinc-300 h-[9%]'>
+        <div className='bg-[#FBFBFB] w-full border-b flex items-center justify-between border-zinc-300 md:h-[9%] h-[11%]'>
             <div className='h-full'>
                 <span className='h-full bg-[#F5F5F5] text-[#757171] font-semibold flex items-center px-5'>
                     {language === "java" ? `Main.${language}` : `main.${language}`}

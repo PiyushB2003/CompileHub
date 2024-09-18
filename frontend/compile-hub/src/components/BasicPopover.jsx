@@ -75,9 +75,9 @@ export default function BasicPopover() {
     };
 
     return (
-        <div>
-            <Button aria-describedby={id} variant="outlined" className='font-semibold flex items-center capitalize text-[16px]' onClick={handleClick}>
-                <span className='font-semibold flex items-center capitalize text-[16px]'>
+        <div className='pr-5'>
+            <Button aria-describedby={id} variant="outlined" className='font-semibold flex items-center capitalize md:text-[16px]' onClick={handleClick}>
+                <span className='font-semibold flex items-center capitalize text-xs md:text-[16px]'>
                     <AutoAwesomeIcon />
                     <span className='ml-1'>Optimisation <span className=' lowercase'>tips with</span> AI</span>
                 </span>

@@ -11,7 +11,7 @@ const LanguageSelector = () => {
         { url: "/images/c_white.png", language: "c" }
     ];
     return (
-        <div className='border-r border-zinc-300 bg-[#EFF2F7] w-[4%] h-full flex items-center flex-col'>
+        <div className='border-r hidden border-zinc-300 bg-[#EFF2F7] w-[4%] h-full md:flex items-center flex-col'>
             {imageUrls.map((obj, index) => (
                 <span
                     key={index}

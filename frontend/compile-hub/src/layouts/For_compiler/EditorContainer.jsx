@@ -21,6 +21,7 @@ const EditorContainer = () => {
         <div className='h-[91%] w-full'>
             <Editor
                 height="100%"
+                width="100%"
                 language={language}
                 value={code}
                 theme="myCustomTheme"
