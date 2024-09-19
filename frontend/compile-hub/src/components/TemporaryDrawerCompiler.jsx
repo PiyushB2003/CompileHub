@@ -80,7 +80,7 @@ export default function TemporaryDrawerCompiler() {
                         <ListItem disablePadding>
                             <ListItemButton>
                                 <ListItemIcon>
-                                    <span className=" border border-zinc-300 w-9 h-9 flex items-center justify-center">
+                                    <span className=" border border-zinc-300 dark:border-zinc-600 w-9 h-9 flex items-center justify-center">
                                         <img src={obj.language_img_url} alt={obj.language_name} className="w-6 h-6 object-contain grayscale-[100%] brightness-[60%]" />
                                     </span>
                                 </ListItemIcon>
@@ -96,10 +96,12 @@ export default function TemporaryDrawerCompiler() {
     return (
         <div>
             <Button onClick={toggleDrawer(true)}>
-                <MenuIcon className='text-black' />
+                <MenuIcon className='text-black dark:text-white' />
             </Button>
             <Drawer open={open} onClose={toggleDrawer(false)}>
-                {DrawerList}
+                <div className='dark:bg-[#28252E] h-full dark:text-white'>
+                    {DrawerList}
+                </div>
             </Drawer>
         </div>
     );

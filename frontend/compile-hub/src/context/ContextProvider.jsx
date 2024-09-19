@@ -41,7 +41,6 @@ const ContextProvider = (props) => {
                 input,
                 language,
             });
-            console.log(response.data);
 
             setOutput(response.data.output || response.data.stderr || 'No output');
         } catch (error) {
@@ -123,6 +122,14 @@ const ContextProvider = (props) => {
         }
     }, []);
 
+    useEffect(() => {
+        if (isDarkMode) {
+            document.documentElement.classList.add('dark'); // Adds 'dark' class to the <html> element
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    }, [isDarkMode]);
+
     const GoogleLogin = () => {
         window.open(`${import.meta.env.VITE_BACKEND_HOST_URL}/auth/google`, "_self");
         setIsAuthenticated(true);
@@ -130,6 +137,10 @@ const ContextProvider = (props) => {
 
     const GoogleLogout = () => {
         localStorage.removeItem("UserLogged");
+        localStorage.removeItem("token")
+        localStorage.removeItem("loggedInUserEmail")
+        localStorage.removeItem("loggedInUser")
+        localStorage.removeItem("userId")
         window.open(`${import.meta.env.VITE_BACKEND_HOST_URL}/logout`, "_self");
         setAvatar("");
         setUserEmail("");

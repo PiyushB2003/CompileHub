@@ -95,11 +95,13 @@ export default function AccountMenu() {
                             <p className='text-center'>Hii, {GetFirstName()}</p>
                         </div> : <div className='flex flex-col items-center'>
                             <p className='my-3'>{userEmail}</p>
-                            <img src={avatar} alt="profile" className='size-14 rounded-full' />
+                            {
+                                avatar ? <img src={avatar} alt="profile" className='size-14 rounded-full' /> : <BackgroundLetterAvatars username={userName} />
+                            }
+                            
                             <p className='text-center'>Hii, {GetFirstName()}</p>
                         </div>
                     }
-
                 </MenuItem>
 
                 <MenuItem onClick={GoogleLogout}>

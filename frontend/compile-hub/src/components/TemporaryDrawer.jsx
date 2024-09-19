@@ -58,7 +58,7 @@ export default function TemporaryDrawer() {
         <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
             <List>
                 <NavLink to="/compiler">
-                    <ListItem disablePadding className='hover:bg-zinc-200'>
+                    <ListItem disablePadding className='hover:bg-zinc-200 dark:hover:bg-[#322e39] dark:text-white'>
                         <ListItemButton>
                             <ListItemText primary="Compiler" />
                         </ListItemButton>
@@ -71,17 +71,17 @@ export default function TemporaryDrawer() {
     return (
         <div>
             <Button onClick={toggleDrawer(true)}>
-                <MenuIcon className='text-black' />
+                <MenuIcon className='text-black dark:text-white' />
             </Button>
             <Drawer open={open} onClose={toggleDrawer(false)}>
-                <div className='flex flex-col justify-between h-full'>
+                <div className='flex flex-col justify-between h-full dark:bg-[#28252E]'>
                     <div>
                         {DrawerList}
                         <List>
                             <span onClick={() => {
                                 setIsClick(prev => !prev)
                             }}>
-                                <ListItem disablePadding className='hover:bg-zinc-200'>
+                                <ListItem disablePadding className='hover:bg-zinc-200 dark:hover:bg-[#322e39] dark:text-white'>
                                     <ListItemButton>
                                         <ListItemText primary="Languages" />
                                         {
@@ -93,7 +93,7 @@ export default function TemporaryDrawer() {
                             {
                                 isClick && (
                                     Languages.map((obj, index) => (
-                                        <NavLink to="/compiler" key={index} onClick={() => {
+                                        <NavLink to="/compiler" className="dark:text-white" key={index} onClick={() => {
                                             setLanguage(obj.language_code)
                                             setCode(Boilerplates[obj.language_code])
                                         }}>
@@ -108,7 +108,7 @@ export default function TemporaryDrawer() {
                             }
                         </List>
                     </div>
-                    <div className='w-full flex items-center justify-between bg-zinc-300 py-5'>
+                    <div className='w-full flex items-center justify-between bg-zinc-300 dark:bg-[#322e39] dark:text-white py-5'>
                         <span className='text-lg pl-5'>
                             {
                                 isDarkMode ? "Dark Theme" : "Light Theme"

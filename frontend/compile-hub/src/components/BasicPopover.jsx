@@ -93,7 +93,7 @@ export default function BasicPopover() {
                 PaperProps={{
                     style: {
                         maxHeight: '60vh',
-                        maxWidth: '50vw',
+                        maxWidth: window.innerWidth < 400 ? '90vw' : window.innerWidth < 640 ? '70vw' : '50vw',
                         overflowY: 'auto',
                     },
                 }}

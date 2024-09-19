@@ -56,7 +56,7 @@ const Login = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-gray-100">
+    <div className="min-h-screen flex flex-col items-center bg-gray-100 dark:bg-[#28252E]">
       <div className='w-full'>
         <div className='flex items-start p-5'>
           <NavLink to="/" className='flex items-start'>
@@ -76,7 +76,7 @@ const Login = () => {
           </div>
 
           <div className="w-full md:w-1/2 p-8">
-            <h2 className="text-2xl font-bold text-center mb-6">Welcome to CompileHub!</h2>
+            <h2 className="text-2xl font-bold text-center mb-6 text-black">Welcome to CompileHub!</h2>
             <p className="text-center text-gray-600 mb-4">
               Please log-in to your account and start coding
             </p>

@@ -12,7 +12,7 @@ const customTheme = {
 };
 
 const EditorContainer = () => {
-    const { language, code, HandleEditorChange } = useContext(Context);
+    const { language, code, HandleEditorChange, isDarkMode } = useContext(Context);
 
     useEffect(() => {
         window?.monaco?.editor?.defineTheme('myCustomTheme', customTheme);
@@ -24,7 +24,7 @@ const EditorContainer = () => {
                 width="100%"
                 language={language}
                 value={code}
-                theme="myCustomTheme"
+                theme={isDarkMode ? "vs-dark" : "myCustomTheme"}
                 options={{ fontFamily: 'Arial, sans-serif', fontSize: 16 }}
                 onChange={HandleEditorChange}
             />

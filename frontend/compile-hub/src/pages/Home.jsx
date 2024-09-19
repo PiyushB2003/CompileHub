@@ -8,7 +8,7 @@ const Home = () => {
     const {GoogleLogout} = useContext(Context);
     return (
         <>
-            <div className='w-screen h-screen min-h-screen'>
+            <div className='w-screen h-screen min-h-screen bg-white dark:bg-[#28252E]'>
                 <Header />
                 <HeroSection />
                 <Footer />

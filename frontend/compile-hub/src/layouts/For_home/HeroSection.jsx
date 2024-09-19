@@ -44,11 +44,11 @@ const HeroSection = () => {
 
   return (
     <>
-      <div className='w-full flex md:px-10 md:mt-20 lg:px-24 mt-28 lg:mt-0 px-5 h-[90%] md:pt-5 md:flex-row flex-col'>
+      <div className='w-full flex md:px-10 bg-white dark:bg-[#28252E] md:mt-20 lg:px-24 mt-28 lg:mt-0 px-5 h-[90%] md:pt-5 md:flex-row flex-col'>
         <div className='w-full pt-10 md:w-1/2 h-full pb-7 flex flex-col justify-center'>
           <div className='text-[#25265e]'>
-            <h1 className='text-3xl md:text-4xl font-bold my-7 md:my-10'>Start programming <br /> for Free</h1>
-            <p className='my-7 md:my-10 text-[17px] md:pr-20'>
+            <h1 className='text-3xl md:text-4xl dark:text-white font-bold my-7 md:my-10'>Start programming <br /> for Free</h1>
+            <p className='my-7 md:my-10 text-[17px] md:pr-20 dark:text-[#66678E]'>
               Harness the power of our online compilers to write, run, and debug code instantly in multiple programming languages. No setup, no hassle - just pure coding at your fingertips.
             </p>
 
@@ -62,12 +62,12 @@ const HeroSection = () => {
           <img src="/images/bg-1.png" alt="hero-img" />
         </div>
       </div>
-      <div className='w-full sm:pt-40 md:h-[40%] mt-56  h-[180%] md:px-10 lg:px-24 md:pt-10 flex flex-col items-center justify-center md:flex-row'>
+      <div className='w-full bg-white dark:bg-[#28252E] sm:pt-40 md:h-[40%] mt-56  h-[180%] md:px-10 lg:px-24 md:pt-10 flex flex-col items-center justify-center md:flex-row'>
         <div className='text-[#25265e] lg:w-1/5 w-full lg:px-5 lg:mt-10'>
-          <h1 className='text-2xl md:text-3xl font-bold md:text-left text-center md:pl-0'>Choose what to code</h1>
-          <p className='mt-5 hidden md:flex'>Start coding with the best programming languages.</p>
+          <h1 className='text-2xl md:text-3xl font-bold md:text-left text-center md:pl-0 dark:text-white'>Choose what to code</h1>
+          <p className='mt-5 hidden md:flex dark:text-[#66678E]'>Start coding with the best programming languages.</p>
         </div>
-        <div className='md:w-[52%] w-full md:mx-10 flex flex-col md:flex-row md:flex-wrap justify-center'>
+        <div className='md:w-[52%] w-full md:mx-10 flex flex-col md:flex-row md:flex-wrap justify-center bg-white dark:bg-[#28252E]'>
           {
             LanguageData.map((obj, index) => {
               return (
@@ -80,8 +80,8 @@ const HeroSection = () => {
                     setCode(Boilerplates[obj.language_code]);
                   }}
                 >
-                  <div className="flex items-center text-[#25265e] font-semibold w-[272px] py-3 mx-5 md:mx-0 pl-5 rounded border border-zinc-300 shadow-lg">
-                    <span className="bg-[#17183B] w-9 h-9 rounded-full flex items-center justify-center">
+                  <div className="flex items-center text-[#25265e] dark:text-[#66678E] font-semibold w-[272px] py-3 mx-5 md:mx-0 pl-5 rounded border border-zinc-300 dark:border-zinc-600 shadow-lg">
+                    <span className="bg-[#17183B] dark:bg-[#423d4d] w-9 h-9 rounded-full flex items-center justify-center">
                       <img src={obj.language_img_url} alt={obj.language_name} className="w-6 h-6 object-contain" />
                     </span>
                     <span className="ml-2">
@@ -92,8 +92,8 @@ const HeroSection = () => {
               );
             })
           }
-          <NavLink to="/compiler" className="w-auto my-3 hover:scale-105 px-2 mx-auto"> {/* Replace w-1/2 with w-auto */}
-            <div className="flex items-center text-blue-500 font-semibold w-[272px] py-[18px] mx-5 pl-7 rounded border border-zinc-300 shadow-lg">
+          <NavLink to="/compiler" className="w-auto my-3  hover:scale-105 px-2 mx-auto"> {/* Replace w-1/2 with w-auto */}
+            <div className="flex items-center text-blue-500 font-semibold w-[272px] py-[18px] mx-5 pl-7 rounded border border-zinc-300 dark:border-zinc-600 shadow-lg">
               <span>
                 View in Compiler <ArrowForwardRoundedIcon />
               </span>

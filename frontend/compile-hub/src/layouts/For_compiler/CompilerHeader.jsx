@@ -3,14 +3,13 @@ import { Context } from '../../context/Context';
 import { NavLink } from 'react-router-dom';
 import AccountMenu from "../../components/AccountMenu";
 import BasicPopover from '../../components/BasicPopover';
-import TemporaryDrawer from '../../components/TemporaryDrawer';
 import TemporaryDrawerCompiler from '../../components/TemporaryDrawerCompiler';
 
 const CompilerHeader = () => {
     const { language } = useContext(Context);
     const logged = localStorage.getItem("UserLogged");
     return (
-        <div className='w-full h-[15%] flex items-center justify-between border-b border-zinc-300 md:px-12'>
+        <div className='w-full h-[15%] flex items-center justify-between border-b border-zinc-300 dark:border-zinc-600 bg-white dark:bg-[#28252E] md:px-12'>
             <div className='hidden md:flex flex-col'>
                 <NavLink to="/">
                     <span className='flex'>

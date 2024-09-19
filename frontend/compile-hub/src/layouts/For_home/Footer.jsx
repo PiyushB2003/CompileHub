@@ -82,7 +82,7 @@ export default function Footer() {
   const {setCode, setLanguage} = useContext(Context);
   return (
     <footer
-      className="bg-neutral-100 text-center md:mt-60 text-neutral-600 dark:bg-[#2B324D] dark:text-neutral-200 lg:text-left">
+      className="text-center md:mt-60 text-white dark:bg-[#3c3845] bg-[#2B324D] dark:text-neutral-200 lg:text-left">
       <div
         className="flex items-center justify-center border-b-2 border-neutral-200 py-6 dark:border-neutral-500 lg:justify-between">
         <div className="hidden lg:block pl-24">
@@ -93,7 +93,7 @@ export default function Footer() {
           {
             SocialHandles.map((obj, index) => {
               return (
-                <a href={obj.redirect} target='_blank' className="mr-6 text-neutral-600 dark:text-neutral-200 hover:text-[#00cd9d] " key={index}>
+                <a href={obj.redirect} target='_blank' className="mr-6 text-white dark:text-neutral-200 hover:text-[#00cd9d] dark:hover:text-[#00cd9d] " key={index}>
                   <span>
                     {obj.icon}
                   </span>
@@ -129,7 +129,7 @@ export default function Footer() {
               languages.map((obj, index) => {
                 return (
                   <p className="mb-4" key={obj.language_code}>
-                    <NavLink to={obj.redirect} className="text-neutral-600 cursor-pointer hover:text-[#00cd9d] transition duration-300  dark:text-neutral-200" onClick={() => {
+                    <NavLink to={obj.redirect} className="text-white cursor-pointer hover:text-[#00cd9d] dark:hover:text-[#00cd9d] transition duration-300  dark:text-neutral-200" onClick={() => {
                       setLanguage(obj.language_code)
                       setCode(Boilerplates[obj.language_code])
                     }}
@@ -149,7 +149,7 @@ export default function Footer() {
               linkNames.map((obj, index) => {
                 return (
                   <p className="mb-4" key={index}>
-                    <NavLink to={obj.redirect} className="text-neutral-600 transition duration-300 hover:text-[#00cd9d]  dark:text-neutral-200"
+                    <NavLink to={obj.redirect} className="text-white transition duration-300 hover:text-[#00cd9d] dark:hover:text-[#00cd9d]  dark:text-neutral-200"
                     >{obj.name}</NavLink>
                   </p>
                 )
@@ -179,12 +179,12 @@ export default function Footer() {
       </div>
 
       {/* <!--Copyright section--> */}
-      <div className="bg-neutral-200 p-6 text-center dark:bg-[#202539]">
+      <div className=" p-6 text-center dark:bg-[#28252E]  bg-[#202539]">
         <span>© {new Date().getFullYear()} Copyright: </span>
         <a
           className="font-semibold text-neutral-600 dark:text-neutral-400"
           href="/"
-        > <span className='font-bold text-[#00cd9d]'>Compile<span className='text-[#757171]'>Hub</span></span></a>
+        > <span className='font-bold text-[#00cd9d] dark:hover:text-[#00cd9d]'>Compile<span className='text-[#757171]'>Hub</span></span></a>
       </div>
     </footer>
   );

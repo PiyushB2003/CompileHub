@@ -53,7 +53,7 @@ const Signup = () => {
     }
   };
   return (
-    <div className="min-h-[110vh] flex flex-col items-center bg-gray-100">
+    <div className="min-h-[110vh] flex flex-col items-center bg-gray-100 dark:bg-[#28252E]">
       <div className='w-full'>
         <div className='flex items-start p-5'>
           <NavLink to="/" className='flex items-start'>

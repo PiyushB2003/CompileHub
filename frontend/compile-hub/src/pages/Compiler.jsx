@@ -23,7 +23,7 @@ const Compiler = () => {
         <LanguageSelector/>
 
         {/* Code Editor */}
-        <div className='h-full w-full md:w-[56%] border-r border-zinc-300'>
+        <div className='h-full w-full md:w-[56%] border-r border-zinc-300 dark:border-zinc-600'>
           <EditorHeader/>
           <EditorContainer />
         </div>

@@ -51,7 +51,7 @@ export default function BasicMenu() {
                 aria-expanded={open ? 'true' : undefined}
                 onClick={handleClick}
             >
-                <span className='text-black capitalize flex hover:text-[#00cd9d] items-center'>
+                <span className='text-black dark:text-white dark:hover:text-[#00cd9d] capitalize flex hover:text-[#00cd9d] items-center'>
                     <span>Language</span><span>
                         {
                             anchorEl ? <KeyboardArrowUpIcon className=' scale-75' /> : <KeyboardArrowDownIcon className=' scale-75' />
