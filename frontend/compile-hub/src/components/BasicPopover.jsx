@@ -8,9 +8,9 @@ import { Context } from '../context/Context';
 import { Comment } from "react-loader-spinner";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy'; // Icon for copy button
+import ContentCopyIcon from '@mui/icons-material/ContentCopy'; 
 
-// Function to extract code and text blocks
+
 const ExtractCodeFromString = (message) => {
     const regex = /```(\w+)?\n([\s\S]*?)```/g;
     const result = [];
@@ -56,7 +56,7 @@ export default function BasicPopover() {
 
     const handleClose = () => {
         setAnchorEl(null);
-        setCopySuccess(null); // Reset copy status when closing popover
+        setCopySuccess(null);
     };
 
     const open = Boolean(anchorEl);
@@ -67,8 +67,8 @@ export default function BasicPopover() {
     const handleCopyCode = async (code, index) => {
         try {
             await navigator.clipboard.writeText(code);
-            setCopySuccess(index); // Set which code block was copied
-            setTimeout(() => setCopySuccess(null), 2000); // Reset after 2 seconds
+            setCopySuccess(index);
+            setTimeout(() => setCopySuccess(null), 2000); 
         } catch (error) {
             console.error('Failed to copy text: ', error);
         }
@@ -123,7 +123,6 @@ export default function BasicPopover() {
                                             </Markdown>
                                         ) : (
                                             <div className="overflow-x-auto w-full relative">
-                                                {/* Syntax Highlighter for code blocks */}
                                                 <SyntaxHighlighter
                                                     className="break-words rounded-xl"
                                                     style={dracula}
@@ -131,8 +130,6 @@ export default function BasicPopover() {
                                                 >
                                                     {block.content}
                                                 </SyntaxHighlighter>
-
-                                                {/* Copy button at the top-right corner */}
                                                 <Button
                                                     className="absolute top-2 right-2 bg-white flex items-center justify-center flex-row hover:bg-gray-200 text-black"
                                                     size="small"
