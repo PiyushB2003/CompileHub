@@ -45,7 +45,7 @@ const ExtractCodeFromString = (message) => {
 };
 
 export default function BasicPopover() {
-    const { GetOptimisedCode, optimiseText, preLoader } = React.useContext(Context);
+    const { GetOptimisedCode, optimiseText, preLoader, isDarkMode } = React.useContext(Context);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [copySuccess, setCopySuccess] = React.useState(null); // Track the copied status
 
@@ -95,6 +95,8 @@ export default function BasicPopover() {
                         maxHeight: '60vh',
                         maxWidth: window.innerWidth < 400 ? '90vw' : window.innerWidth < 640 ? '70vw' : '50vw',
                         overflowY: 'auto',
+                        backgroundColor: isDarkMode ? "#28252E" : "#ffffff",
+                        color: "white"
                     },
                 }}
             >
