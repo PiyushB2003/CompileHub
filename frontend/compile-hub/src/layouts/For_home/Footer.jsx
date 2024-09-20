@@ -79,7 +79,7 @@ const SocialHandles = [
   },
 ]
 export default function Footer() {
-  const {setCode, setLanguage} = useContext(Context);
+  const {setCode, setLanguage, isAuthenticated} = useContext(Context);
   return (
     <footer
       className="text-center md:mt-60 text-white dark:bg-[#3c3845] bg-[#2B324D] dark:text-neutral-200 lg:text-left">
@@ -148,7 +148,9 @@ export default function Footer() {
             {
               linkNames.map((obj, index) => {
                 return (
-                  <p className="mb-4" key={index}>
+                  <p className="mb-4" key={index} onClick={() => {
+                    console.log("IsAUth", isAuthenticated);
+                  }}>
                     <NavLink to={obj.redirect} className="text-white transition duration-300 hover:text-[#00cd9d] dark:hover:text-[#00cd9d]  dark:text-neutral-200"
                     >{obj.name}</NavLink>
                   </p>

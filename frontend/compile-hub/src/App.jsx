@@ -15,10 +15,8 @@ function App() {
   function PrivateRoute({ element }) {
     const isLogged = localStorage.getItem("UserLogged");
     if (isLogged) {
-      console.log("Navigating to protected route");
       return element;
     } else {
-      console.log("Redirecting to login");
       return <Navigate to="/login" />;
     }
   }

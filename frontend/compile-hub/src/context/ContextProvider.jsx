@@ -150,6 +150,10 @@ const ContextProvider = (props) => {
         setIsAuthenticated(false);
     }
 
+    const handleChange = (event) => {
+        setIsDarkMode(event.target.checked);
+    };
+
     const contextValue = {
         isAuthenticated,
         logged,
@@ -167,6 +171,7 @@ const ContextProvider = (props) => {
         preLoader,
         isDarkMode,
         setIsDarkMode,
+        handleChange,
         setPreLoader,
         setOptimiseText,
         setCode,

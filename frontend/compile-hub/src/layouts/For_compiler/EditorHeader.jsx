@@ -4,7 +4,7 @@ import { FullscreenExitRoundedIcon, DarkModeIcon, LightModeIcon, FullscreenRound
 import { Context } from '../../context/Context';
 
 const EditorHeader = () => {
-    const { language, HandleCodeSubmit, loading, isDarkMode, setIsDarkMode } = useContext(Context);
+    const { language, HandleCodeSubmit, loading, isDarkMode, setIsDarkMode, handleChange } = useContext(Context);
     return (
         <div className='bg-[#FBFBFB] dark:bg-[#2a2730] w-full border-b flex items-center justify-between border-zinc-300 dark:border-zinc-600 md:h-[9%] h-[11%]'>
             <div className='h-full'>
@@ -19,7 +19,6 @@ const EditorHeader = () => {
                     {
                         isDarkMode ? <LightModeIcon /> : <DarkModeIcon className='scale-90' />
                     }
-
                 </button>
                 <button className='bg-[#0556F3] hover:bg-[#0047D1] transition duration-300 text-white ml-2 mr-4 font-semibold w-20 h-9 flex items-center justify-center border border-[#0556F3] hover:border-[#0047D1]' onClick={HandleCodeSubmit}>
                     {loading ? (

@@ -10,7 +10,6 @@ const RunController = async (req, res) => {
         return res.status(400).json({ error: 'Dangerous code detected' });
     }
 
-
     switch (language) {
         case 'c':
             await handleCodeExecution(

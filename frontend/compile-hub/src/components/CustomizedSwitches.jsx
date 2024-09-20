@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 
 
 export default function CustomizedSwitches() {
-  const { isDarkMode, setIsDarkMode } = React.useContext(Context);
+  const { isDarkMode, setIsDarkMode, handleChange } = React.useContext(Context);
 
   const MaterialUISwitch = styled(Switch)(({theme}) => ({
     width: 62,
@@ -73,10 +73,6 @@ export default function CustomizedSwitches() {
     // Save the theme preference to localStorage
     localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
   }, [isDarkMode]);
-
-  const handleChange = (event) => {
-    setIsDarkMode(event.target.checked);
-  };
 
   return (
     <>

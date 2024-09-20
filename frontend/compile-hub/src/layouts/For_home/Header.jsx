@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import BasicMenu from '../../components/BasicMenu'
 import Button from '@mui/material/Button'
 import CustomizedSwitches from '../../components/CustomizedSwitches'
 import { NavLink } from "react-router-dom"
 import AccountMenu from '../../components/AccountMenu'
 import TemporaryDrawer from '../../components/TemporaryDrawer'
+import { Context } from '../../context/Context'
 
 const Header = () => {
+  const {isAuthenticated} = useContext(Context);
   const logged = localStorage.getItem("UserLogged");
   return (
     <>
@@ -34,7 +36,7 @@ const Header = () => {
         </div>
         <div className='flex items-center'>
           {
-            logged ? <div className='md:mx-10'>
+            isAuthenticated ? <div className='md:mx-10'>
               <AccountMenu />
             </div> : <div className='md:mx-10'>
               <NavLink to="/login">
