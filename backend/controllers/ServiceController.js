@@ -1,9 +1,16 @@
 import { handleCodeExecution } from "../services/HandleCode.js";
 import run from "../services/GeminiApi.js";
+import validateCode from "../utils/CodeValidation.js";
 
 
 const RunController = async (req, res) => {
     const { language, code } = req.body;
+
+    if (!validateCode(language, code)) {
+        return res.status(400).json({ error: 'Dangerous code detected' });
+    }
+
+
     switch (language) {
         case 'c':
             await handleCodeExecution(
@@ -84,4 +91,4 @@ const OptimiseController = async (req, res) => {
     }
 }
 
-export {RunController, OptimiseController};
+export { RunController, OptimiseController };
